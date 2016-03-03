@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ~ The MIT License (MIT) ~ ~ Copyright (c) 2014 abel533@gmail.com ~ ~ 
+	Permission is hereby granted, free of charge, to any person obtaining a copy 
+	~ of this software and associated documentation files (the "Software"), to 
+	deal ~ in the Software without restriction, including without limitation 
+	the rights ~ to use, copy, modify, merge, publish, distribute, sublicense, 
+	and/or sell ~ copies of the Software, and to permit persons to whom the Software 
+	is ~ furnished to do so, subject to the following conditions: ~ ~ The above 
+	copyright notice and this permission notice shall be included in ~ all copies 
+	or substantial portions of the Software. ~ ~ THE SOFTWARE IS PROVIDED "AS 
+	IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR ~ IMPLIED, INCLUDING BUT NOT 
+	LIMITED TO THE WARRANTIES OF MERCHANTABILITY, ~ FITNESS FOR A PARTICULAR 
+	PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE ~ AUTHORS OR COPYRIGHT 
+	HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER ~ LIABILITY, WHETHER IN 
+	AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, ~ OUT OF OR IN CONNECTION 
+	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN ~ THE SOFTWARE. -->
+
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<properties resource="config.properties" />
+
+	<context id="context1" targetRuntime="MyBatis3Simple"
+		defaultModelType="flat">
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+
+		<plugin type="${mapper.plugin}">
+			<property name="mappers" value="${mapper.Mapper}" />
+		</plugin>
+
+		<jdbcConnection driverClass="${jdbc.driverClass}"
+			connectionURL="${jdbc.url}" userId="${jdbc.user}" password="${jdbc.password}">
+		</jdbcConnection>
+
+		<javaModelGenerator targetPackage="${prj.groupId1}.model"
+			targetProject="${targetJavaProject}" />
+
+		<sqlMapGenerator targetPackage="${targetXMLPackage}"
+			targetProject="${targetResourcesProject}" />
+
+		<javaClientGenerator targetPackage="${prj.groupId1}.mapper"
+			targetProject="${targetJavaProject}" type="XMLMAPPER" />
+
+		<!-- <table schema="db_name" tableName="tb_table_name" domainObjectName="EntityName" 
+			enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" 
+			enableSelectByExample="false" selectByExampleQueryId="false"> Mybatis Generator默认设置会生成一大堆罗哩罗嗦的Example类,主要是用各种不同的条件来操作数据库,大部分是用不到的,用到的时候手工修改mapper和接口文件就行了。这样生成的mapper和dao接口就清爽多了。 
+			<property name="useActualColumnNames" value="true" /> 忽略列，不生成bean字段 <ignoreColumn 
+			column="FRED" /> 指定列的java数据类型 <columnOverride column="DOUBLE" jdbcType="DECIMAL" 
+			/> <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" /> </table> -->
+
+		<!-- <table schema="PAYADM" tableName="ZEA_USER" /> -->
+		<!--<table tableName="at_user" domainObjectName="atUser" enableCountByExample="false" 
+			enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
+			selectByExampleQueryId="false" /> -->
+
+
+		<!-- % -->
+		<table tableName="t_country">
+			<generatedKey column="id" sqlStatement="context1" identity="true" />
+		</table>
+	</context>
+
+	<!-- 文件或pox.xml中，右键Run AS——>Maven Build… ——>在Goals框中输入 -->
+	<!-- mvn mybatis-generator:generate -->
+
+</generatorConfiguration>
