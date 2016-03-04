@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
-import com.hdy.model.TCountry;
+import com.hdy.model.internal.TCountry;
 import com.hdy.service.CountryService;
 
 /**

@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hdy.mapper.TCountryMapper;
-import com.hdy.model.TCountry;
+import com.hdy.mapper.internal.TCountryMapper;
+import com.hdy.model.internal.TCountry;
 
 import tk.mybatis.mapper.entity.Example;
 

@@ -3,7 +3,7 @@ package com.hdy.service;
 import java.util.List;
 
 import com.hdy.base.BaseServiceI;
-import com.hdy.model.TCountry;
+import com.hdy.model.internal.TCountry;
 
 /**
  * @author liuzh_3nofxnp

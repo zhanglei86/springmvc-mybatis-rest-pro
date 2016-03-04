@@ -35,7 +35,6 @@
 		<targetJavaProject>${basedir}/src/main/java</targetJavaProject>
 		<!-- XML生成路径 -->
 		<targetResourcesProject>${basedir}/src/main/resources</targetResourcesProject>
-		<targetXMLPackage>mapper</targetXMLPackage>
 
 		<!-- json -->
 		<fasterxml-jackson-core.version>2.6.3</fasterxml-jackson-core.version>

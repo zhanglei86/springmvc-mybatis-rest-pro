@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.hdy.base.BaseServiceImpl;
-import com.hdy.model.TCountry;
+import com.hdy.model.internal.TCountry;
 import com.hdy.service.CountryService;
 
 import tk.mybatis.mapper.entity.Example;

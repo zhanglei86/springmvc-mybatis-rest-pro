@@ -17,7 +17,7 @@
 	">
 
 	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+	<bean id="dataSource1" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClass}" />
 		<property name="url" value="${jdbc.url}" />
@@ -56,15 +56,15 @@
 	</bean>
 
 	<!-- mybatis配置 -->
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource1" />
 		<property name="mapperLocations">
 			<array>
-				<value>classpath:mapper/*.xml</value>
+				<value>classpath:mapper/internal/*.xml</value>
 			</array>
 		</property>
-		<property name="typeAliasesPackage" value="${prj.groupId1}.model" />
+		<property name="typeAliasesPackage" value="${prj.groupId1}.model.internal" />
 		<property name="plugins">
 			<array>
 				<bean class="com.github.pagehelper.PageHelper">
@@ -79,9 +79,11 @@
 
 	<!-- 配置扫描器 -->
 	<!-- 官方是org.mybatis.spring.mapper.MapperScannerConfigurer -->
-	<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+	<!-- tk.mybatis.spring.mapper.MapperScannerConfigurer -->
+	<bean id="mapperScannerConfigurer1" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1"/>
 		<!-- 暂不支持${prj.groupId}的配置，因为spring的ContextLoaderListener报错 -->
-		<property name="basePackage" value="com.hdy.mapper" />
+		<property name="basePackage" value="com.hdy.mapper.internal" />
 		<!-- 3.2.2版本新特性，markerInterface可以起到mappers配置的作用，详细情况需要看Marker接口类 -->
 		<!--<property name="markerInterface" value="com.isea533.mybatis.util.MyMapper" 
 			/> -->
@@ -91,7 +93,7 @@
 
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
 		scope="prototype">
-		<constructor-arg index="0" ref="sqlSessionFactory" />
+		<constructor-arg index="0" ref="sqlSessionFactory1" />
 	</bean>
 
 	<aop:aspectj-autoproxy />
@@ -131,7 +133,7 @@
 	<!-- 配置Spring的事务管理器 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSource1" />
 	</bean>
 
 	<!-- 配置druid监控spring jdbc -->
@@ -150,6 +152,105 @@
 		<aop:advisor advice-ref="druid-stat-interceptor"
 			pointcut-ref="druid-stat-pointcut" />
 	</aop:config>
+
+
+	<!-- multi Datasource -->
+	<!-- external start -->
+	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
+	<bean id="dataSource2" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClass2}" />
+		<property name="url" value="${jdbc.url2}" />
+		<property name="username" value="${jdbc.user2}" />
+		<property name="password" value="${jdbc.password2}" />
+
+		<!-- 监控数据库 -->
+		<property name="filters" value="stat" />
+		<!--<property name="filters" value="mergeStat" /> -->
+
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+		<!-- 初始化连接大小 -->
+		<property name="initialSize" value="1" />
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
+		<!-- 连接池最小空闲 -->
+		<property name="minIdle" value="1" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<!-- 打开removeAbandoned功能 -->
+		<property name="removeAbandoned" value="true" />
+		<!-- 1800秒，也就是30分钟 -->
+		<property name="removeAbandonedTimeout" value="1800" />
+		<!-- 关闭abanded连接时输出错误日志 -->
+		<property name="logAbandoned" value="true" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+	</bean>
+
+	<!-- mybatis配置 -->
+	<bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
+		<property name="dataSource" ref="dataSource2" />
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:mapper/external/*.xml</value>
+			</array>
+		</property>
+		<property name="typeAliasesPackage" value="${prj.groupId1}.model.external" />
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+				</bean>
+			</array>
+		</property>
+	</bean>
+
+	<!-- 配置扫描器 -->
+	<bean id="mapperScannerConfigurer2" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"/>
+		<property name="basePackage" value="com.hdy.mapper.external" />
+	</bean>
+
+	<bean id="sqlSession2" class="org.mybatis.spring.SqlSessionTemplate"
+		scope="prototype">
+		<constructor-arg index="0" ref="sqlSessionFactory2" />
+	</bean>
+
+	<aop:aspectj-autoproxy />
+
+	<aop:config>
+		<aop:pointcut id="appService"
+			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="appService" />
+	</aop:config>
+
+	<!-- 注解方式配置事务 -->
+	<!-- <tx:annotation-driven id="txAdvice" transaction-manager="transactionManager" 
+		/> -->
+	<!-- 拦截器方式配置事物 -->
+	<tx:advice id="txAdvice2" transaction-manager="transactionManager2">
+		<tx:attributes>
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- 配置Spring的事务管理器 -->
+	<bean id="transactionManager2"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource2" />
+	</bean>
+	<!-- external end -->
 
 
 </beans>
