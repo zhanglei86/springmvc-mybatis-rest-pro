@@ -16,6 +16,7 @@
     http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 	">
 
+	<!-- start -->
 	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
 	<bean id="dataSource1" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
@@ -81,7 +82,7 @@
 	<!-- 官方是org.mybatis.spring.mapper.MapperScannerConfigurer -->
 	<!-- tk.mybatis.spring.mapper.MapperScannerConfigurer -->
 	<bean id="mapperScannerConfigurer1" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1" />
 		<!-- 暂不支持${prj.groupId}的配置，因为spring的ContextLoaderListener报错 -->
 		<property name="basePackage" value="com.hdy.mapper.internal" />
 		<!-- 3.2.2版本新特性，markerInterface可以起到mappers配置的作用，详细情况需要看Marker接口类 -->
@@ -95,14 +96,6 @@
 		scope="prototype">
 		<constructor-arg index="0" ref="sqlSessionFactory1" />
 	</bean>
-
-	<aop:aspectj-autoproxy />
-
-	<aop:config>
-		<aop:pointcut id="appService"
-			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="appService" />
-	</aop:config>
 
 	<!-- 注解方式配置事务 -->
 	<!-- <tx:annotation-driven id="txAdvice" transaction-manager="transactionManager" 
@@ -135,23 +128,7 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource1" />
 	</bean>
-
-	<!-- 配置druid监控spring jdbc -->
-	<bean id="druid-stat-interceptor"
-		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
-	</bean>
-	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-		scope="prototype">
-		<property name="patterns">
-			<list>
-				<value>${prj.groupId1}.*</value>
-			</list>
-		</property>
-	</bean>
-	<aop:config>
-		<aop:advisor advice-ref="druid-stat-interceptor"
-			pointcut-ref="druid-stat-pointcut" />
-	</aop:config>
+	<!-- end -->
 
 
 	<!-- multi Datasource -->
@@ -197,7 +174,6 @@
 
 	<!-- mybatis配置 -->
 	<bean id="sqlSessionFactory2" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
 		<property name="dataSource" ref="dataSource2" />
 		<property name="mapperLocations">
 			<array>
@@ -215,7 +191,7 @@
 
 	<!-- 配置扫描器 -->
 	<bean id="mapperScannerConfigurer2" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2" />
 		<property name="basePackage" value="com.hdy.mapper.external" />
 	</bean>
 
@@ -224,17 +200,6 @@
 		<constructor-arg index="0" ref="sqlSessionFactory2" />
 	</bean>
 
-	<aop:aspectj-autoproxy />
-
-	<aop:config>
-		<aop:pointcut id="appService"
-			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="appService" />
-	</aop:config>
-
-	<!-- 注解方式配置事务 -->
-	<!-- <tx:annotation-driven id="txAdvice" transaction-manager="transactionManager" 
-		/> -->
 	<!-- 拦截器方式配置事物 -->
 	<tx:advice id="txAdvice2" transaction-manager="transactionManager2">
 		<tx:attributes>
@@ -251,6 +216,33 @@
 		<property name="dataSource" ref="dataSource2" />
 	</bean>
 	<!-- external end -->
+
+
+	<aop:aspectj-autoproxy />
+	<aop:config>
+		<aop:pointcut id="appService"
+			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="appService" />
+	</aop:config>
+
+
+	<!-- 配置druid监控spring jdbc -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>${prj.groupId1}.*</value>
+			</list>
+		</property>
+	</bean>
+	<aop:config>
+		<aop:advisor advice-ref="druid-stat-interceptor"
+			pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+
 
 
 </beans>
