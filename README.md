@@ -9,7 +9,7 @@ internal
 参考
 MyBatis多数据源配置(读写分离)
 http://blog.csdn.net/isea533/article/details/46815385
- Spring+Mybatis 多数据源配置
+Spring+Mybatis 多数据源配置
 http://blog.csdn.net/zheng0518/article/details/46441673
 mybatis如何配置使用多个数据源（environment）？枚举类
 http://zhangbo-peipei-163-com.iteye.com/blog/2052924
