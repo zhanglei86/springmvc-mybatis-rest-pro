@@ -3,10 +3,12 @@ project infrastructure
 
 multi Datasource
 
-external
-internal
 
-参考
+
+external和internal双版本
+
+参考：
+
 MyBatis多数据源配置(读写分离)
 
 http://blog.csdn.net/isea533/article/details/46815385
@@ -23,5 +25,4 @@ http://blog.csdn.net/u013256816/article/details/49949699
 
 Spring+MyBatis多数据源配置实现
 http://blog.csdn.net/li_xiao_ming/article/details/49664541
-
 http://www.cnblogs.com/lzrabbit/p/3750803.html
