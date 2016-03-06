@@ -22,60 +22,30 @@
  * THE SOFTWARE.
  */
 
-package com.hdy.base;
+package com.zl.base;
+
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import tk.mybatis.mapper.common.Mapper;
-
 /**
- * Created by liuzh on 2014/12/11 
- * Edit by zl on 2016/2/20
+ * 通用接口
  */
-public abstract class BaseServiceImpl<T> implements BaseServiceI<T> {
+@Service
+public interface BaseServiceI<T> {
 
-	@Autowired
-	protected Mapper<T> mapper;
+	int save(T entity);
 
-	public Mapper<T> getMapper() {
-		return mapper;
-	}
+	int delete(Object key);
 
-	@Override
-	public int save(T entity) {
-		return mapper.insert(entity);
-	}
+	int updateAll(T entity);
 
-	@Override
-	public int delete(Object key) {
-		return mapper.deleteByPrimaryKey(key);
-	}
+	int updateNotNull(T entity);
 
-	@Override
-	public int updateAll(T entity) {
-		return mapper.updateByPrimaryKey(entity);
-	}
+	T selectByKey(Object key);
 
-	@Override
-	public int updateNotNull(T entity) {
-		return mapper.updateByPrimaryKeySelective(entity);
-	}
-
-	@Override
-	public T selectByKey(Object key) {
-		return mapper.selectByPrimaryKey(key);
-	}
-
-	@Override
-	public List<T> selectByExample(Object example) {
-		return mapper.selectByExample(example);
-	}
+	List<T> selectByExample(Object example);
 
 	// TODO 其他...
-	@Override
-	public List<T> selectAll() {
-		return mapper.selectAll();
-	}
+	List<T> selectAll();
 }

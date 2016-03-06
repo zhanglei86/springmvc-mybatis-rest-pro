@@ -36,13 +36,13 @@
 			connectionURL="${jdbc.url2}" userId="${jdbc.user2}" password="${jdbc.password2}">
 		</jdbcConnection>
 
-		<javaModelGenerator targetPackage="${prj.groupId1}.model.external"
+		<javaModelGenerator targetPackage="${prj.groupId1}.model.datasource1"
 			targetProject="${targetJavaProject}" />
 
-		<sqlMapGenerator targetPackage="mapper.external"
+		<sqlMapGenerator targetPackage="mapper.datasource1"
 			targetProject="${targetResourcesProject}" />
 
-		<javaClientGenerator targetPackage="${prj.groupId1}.mapper.external"
+		<javaClientGenerator targetPackage="${prj.groupId1}.mapper.datasource1"
 			targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
 		<!-- <table schema="db_name" tableName="tb_table_name" domainObjectName="EntityName" 

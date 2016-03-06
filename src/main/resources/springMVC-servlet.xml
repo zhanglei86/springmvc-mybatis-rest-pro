@@ -27,7 +27,7 @@
 	</mvc:annotation-driven>
 
 	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
-	<context:component-scan base-package="com.hdy" />
+	<context:component-scan base-package="com.zl" />
 
 	<bean id="stringHttpMessageConverter"
 		class="org.springframework.http.converter.StringHttpMessageConverter">

@@ -1,4 +1,4 @@
-package com.hdy.model.external;
+package com.zl.model.datasource1;
 
 import javax.persistence.*;
 
@@ -15,14 +15,12 @@ public class TCountry {
     /**
      * 名称
      */
-    @Column(name = "t_countryname")
-    private String tCountryname;
+    private String countryname;
 
     /**
      * 代码
      */
-    @Column(name = "t_countrycode")
-    private String tCountrycode;
+    private String countrycode;
 
     /**
      * 获取主键
@@ -45,36 +43,36 @@ public class TCountry {
     /**
      * 获取名称
      *
-     * @return t_countryname - 名称
+     * @return countryname - 名称
      */
-    public String gettCountryname() {
-        return tCountryname;
+    public String getCountryname() {
+        return countryname;
     }
 
     /**
      * 设置名称
      *
-     * @param tCountryname 名称
+     * @param countryname 名称
      */
-    public void settCountryname(String tCountryname) {
-        this.tCountryname = tCountryname;
+    public void setCountryname(String countryname) {
+        this.countryname = countryname;
     }
 
     /**
      * 获取代码
      *
-     * @return t_countrycode - 代码
+     * @return countrycode - 代码
      */
-    public String gettCountrycode() {
-        return tCountrycode;
+    public String getCountrycode() {
+        return countrycode;
     }
 
     /**
      * 设置代码
      *
-     * @param tCountrycode 代码
+     * @param countrycode 代码
      */
-    public void settCountrycode(String tCountrycode) {
-        this.tCountrycode = tCountrycode;
+    public void setCountrycode(String countrycode) {
+        this.countrycode = countrycode;
     }
 }

@@ -1,6 +1,6 @@
-package com.hdy.mapper.internal;
+package com.zl.mapper.datasource1;
 
-import com.hdy.model.internal.TCountry;
+import com.zl.model.datasource1.TCountry;
 
 import tk.mybatis.mapper.common.Mapper;
 

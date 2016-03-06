@@ -62,10 +62,10 @@
 		<property name="dataSource" ref="dataSource1" />
 		<property name="mapperLocations">
 			<array>
-				<value>classpath:mapper/internal/*.xml</value>
+				<value>classpath:mapper/datasource1/*.xml</value>
 			</array>
 		</property>
-		<property name="typeAliasesPackage" value="${prj.groupId1}.model.internal" />
+		<property name="typeAliasesPackage" value="${prj.groupId1}.model.datasource1" />
 		<property name="plugins">
 			<array>
 				<bean class="com.github.pagehelper.PageHelper">
@@ -84,7 +84,7 @@
 	<bean id="mapperScannerConfigurer1" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1" />
 		<!-- 暂不支持${prj.groupId}的配置，因为spring的ContextLoaderListener报错 -->
-		<property name="basePackage" value="com.hdy.mapper.internal" />
+		<property name="basePackage" value="com.zl.mapper.datasource1" />
 		<!-- 3.2.2版本新特性，markerInterface可以起到mappers配置的作用，详细情况需要看Marker接口类 -->
 		<!--<property name="markerInterface" value="com.isea533.mybatis.util.MyMapper" 
 			/> -->
@@ -132,7 +132,7 @@
 
 
 	<!-- multi Datasource -->
-	<!-- external start -->
+	<!-- datasource2 start -->
 	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
 	<bean id="dataSource2" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
@@ -177,10 +177,10 @@
 		<property name="dataSource" ref="dataSource2" />
 		<property name="mapperLocations">
 			<array>
-				<value>classpath:mapper/external/*.xml</value>
+				<value>classpath:mapper/datasource2/*.xml</value>
 			</array>
 		</property>
-		<property name="typeAliasesPackage" value="${prj.groupId1}.model.external" />
+		<property name="typeAliasesPackage" value="${prj.groupId1}.model.datasource2" />
 		<property name="plugins">
 			<array>
 				<bean class="com.github.pagehelper.PageHelper">
@@ -192,7 +192,7 @@
 	<!-- 配置扫描器 -->
 	<bean id="mapperScannerConfigurer2" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory2" />
-		<property name="basePackage" value="com.hdy.mapper.external" />
+		<property name="basePackage" value="com.zl.mapper.datasource2" />
 	</bean>
 
 	<bean id="sqlSession2" class="org.mybatis.spring.SqlSessionTemplate"
@@ -215,7 +215,7 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource2" />
 	</bean>
-	<!-- external end -->
+	<!-- datasource2 end -->
 
 
 	<aop:aspectj-autoproxy />

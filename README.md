@@ -6,6 +6,8 @@ multi Datasource
 
 
 external和internal双版本
+即:datasource1,datasource2
+
 
 参考：
 

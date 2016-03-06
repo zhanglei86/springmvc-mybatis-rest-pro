@@ -1,9 +1,9 @@
-package com.hdy.service;
+package com.zl.service;
 
 import java.util.List;
 
-import com.hdy.base.BaseServiceI;
-import com.hdy.model.internal.TCountry;
+import com.zl.base.BaseServiceI;
+import com.zl.model.datasource1.TCountry;
 
 /**
  * @author liuzh_3nofxnp

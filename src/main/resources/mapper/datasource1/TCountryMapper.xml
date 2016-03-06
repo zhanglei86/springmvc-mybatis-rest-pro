@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hdy.mapper.internal.TCountryMapper" >
-  <resultMap id="BaseResultMap" type="com.hdy.model.internal.TCountry" >
+<mapper namespace="com.zl.mapper.datasource1.TCountryMapper" >
+  <resultMap id="BaseResultMap" type="com.zl.model.datasource1.TCountry" >
     <!--
       WARNING - @mbggenerated
     -->
