@@ -6,7 +6,7 @@
       WARNING - @mbggenerated
     -->
     <id column="Id" property="id" jdbcType="INTEGER" />
-    <result column="t_countryname" property="tCountryname" jdbcType="VARCHAR" />
-    <result column="t_countrycode" property="tCountrycode" jdbcType="VARCHAR" />
+    <result column="countryname" property="countryname" jdbcType="VARCHAR" />
+    <result column="countrycode" property="countrycode" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

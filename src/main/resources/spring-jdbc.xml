@@ -20,28 +20,32 @@
 	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
 	<bean id="dataSource1" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		<property name="driverClassName" value="${jdbc.driverClass}" />
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.user}" />
-		<property name="password" value="${jdbc.password}" />
+		<!-- 基本属性 url、user、password -->
+		<property name="driverClassName" value="${jdbc.driverClass1}" />
+		<property name="url" value="${jdbc.url1}" />
+		<property name="username" value="${jdbc.user1}" />
+		<property name="password" value="${jdbc.password1}" />
 
-		<!-- 监控数据库 -->
-		<property name="filters" value="stat" />
-		<!--<property name="filters" value="mergeStat" /> -->
-
-		<!-- 连接池最大使用连接数量 -->
-		<property name="maxActive" value="20" />
-		<!-- 初始化连接大小 -->
+		<!-- 配置初始化连接大小、最小、最大 -->
 		<property name="initialSize" value="1" />
-		<!-- 获取连接最大等待时间 -->
-		<property name="maxWait" value="60000" />
 		<!-- 连接池最小空闲 -->
 		<property name="minIdle" value="1" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
 
 		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
 		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
 		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
 		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
 
 		<!-- 打开removeAbandoned功能 -->
 		<property name="removeAbandoned" value="true" />
@@ -50,10 +54,15 @@
 		<!-- 关闭abanded连接时输出错误日志 -->
 		<property name="logAbandoned" value="true" />
 
-		<property name="validationQuery" value="SELECT 'x'" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="false" />
-		<property name="testOnReturn" value="false" />
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat" />
+		<!--<property name="filters" value="mergeStat" /> -->
+
 	</bean>
 
 	<!-- mybatis配置 -->
@@ -97,11 +106,18 @@
 		<constructor-arg index="0" ref="sqlSessionFactory1" />
 	</bean>
 
-	<!-- 注解方式配置事务 -->
+	<!-- 配置Spring的事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource1" />
+		<qualifier value="isap" />
+	</bean>
+
+	<!-- 全注解方式 需加上@Transactional -->
 	<!-- <tx:annotation-driven id="txAdvice" transaction-manager="transactionManager" 
 		/> -->
-	<!-- 拦截器方式配置事物 -->
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<!-- 声明式事务,拦截器方式配置事物 -->
+	<tx:advice id="txAdvice1" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="select*" read-only="true" />
 			<tx:method name="find*" read-only="true" />
@@ -123,11 +139,15 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- 配置Spring的事务管理器 -->
-	<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource1" />
-	</bean>
+	<!-- 事务控制拦截 -->
+	<!-- <aop:config proxy-target-class="true"> <aop:advisor pointcut="execution(* 
+		org.zhuc..*.service..*Service.*(..))" advice-ref="txAdvice" /> </aop:config> -->
+	<aop:config>
+		<aop:pointcut id="appService1"
+			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
+		<aop:advisor advice-ref="txAdvice1" pointcut-ref="appService1" />
+	</aop:config>
+
 	<!-- end -->
 
 
@@ -136,28 +156,32 @@
 	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
 	<bean id="dataSource2" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
+		<!-- 基本属性 url、user、password -->
 		<property name="driverClassName" value="${jdbc.driverClass2}" />
 		<property name="url" value="${jdbc.url2}" />
 		<property name="username" value="${jdbc.user2}" />
 		<property name="password" value="${jdbc.password2}" />
 
-		<!-- 监控数据库 -->
-		<property name="filters" value="stat" />
-		<!--<property name="filters" value="mergeStat" /> -->
-
-		<!-- 连接池最大使用连接数量 -->
-		<property name="maxActive" value="20" />
-		<!-- 初始化连接大小 -->
+		<!-- 配置初始化连接大小、最小、最大 -->
 		<property name="initialSize" value="1" />
-		<!-- 获取连接最大等待时间 -->
-		<property name="maxWait" value="60000" />
 		<!-- 连接池最小空闲 -->
 		<property name="minIdle" value="1" />
+		<!-- 连接池最大使用连接数量 -->
+		<property name="maxActive" value="20" />
+
+		<!-- 获取连接最大等待时间 -->
+		<property name="maxWait" value="60000" />
 
 		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
 		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
 		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
 		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
 
 		<!-- 打开removeAbandoned功能 -->
 		<property name="removeAbandoned" value="true" />
@@ -166,10 +190,15 @@
 		<!-- 关闭abanded连接时输出错误日志 -->
 		<property name="logAbandoned" value="true" />
 
-		<property name="validationQuery" value="SELECT 'x'" />
-		<property name="testWhileIdle" value="true" />
-		<property name="testOnBorrow" value="false" />
-		<property name="testOnReturn" value="false" />
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
+
+		<!-- 配置监控统计拦截的filters -->
+		<property name="filters" value="stat" />
+		<!--<property name="filters" value="mergeStat" /> -->
+
 	</bean>
 
 	<!-- mybatis配置 -->
@@ -200,6 +229,12 @@
 		<constructor-arg index="0" ref="sqlSessionFactory2" />
 	</bean>
 
+	<!-- 配置Spring的事务管理器 -->
+	<bean id="transactionManager2"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource2" />
+	</bean>
+
 	<!-- 拦截器方式配置事物 -->
 	<tx:advice id="txAdvice2" transaction-manager="transactionManager2">
 		<tx:attributes>
@@ -210,20 +245,17 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- 配置Spring的事务管理器 -->
-	<bean id="transactionManager2"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource2" />
-	</bean>
+	<!-- 事务控制拦截 -->
+	<aop:config>
+		<aop:pointcut id="appService2"
+			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
+		<aop:advisor advice-ref="txAdvice2" pointcut-ref="appService2" />
+	</aop:config>
+
 	<!-- datasource2 end -->
 
 
 	<aop:aspectj-autoproxy />
-	<aop:config>
-		<aop:pointcut id="appService"
-			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="appService" />
-	</aop:config>
 
 
 	<!-- 配置druid监控spring jdbc -->
