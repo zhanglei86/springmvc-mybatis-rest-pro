@@ -32,17 +32,17 @@
 			<property name="mappers" value="${mapper.Mapper}" />
 		</plugin>
 
-		<jdbcConnection driverClass="${jdbc.driverClass1}"
-			connectionURL="${jdbc.url1}" userId="${jdbc.user1}" password="${jdbc.password1}">
+		<jdbcConnection driverClass="${jdbc.driverClass3}"
+			connectionURL="${jdbc.url3}" userId="${jdbc.user3}" password="${jdbc.password3}">
 		</jdbcConnection>
 
-		<javaModelGenerator targetPackage="${prj.groupId1}.model.datasource1"
+		<javaModelGenerator targetPackage="${prj.groupId1}.model.datasource3"
 			targetProject="${targetJavaProject}" />
 
-		<sqlMapGenerator targetPackage="mapper.datasource1"
+		<sqlMapGenerator targetPackage="mapper.datasource3"
 			targetProject="${targetResourcesProject}" />
 
-		<javaClientGenerator targetPackage="${prj.groupId1}.mapper.datasource1"
+		<javaClientGenerator targetPackage="${prj.groupId1}.mapper.datasource3"
 			targetProject="${targetJavaProject}" type="XMLMAPPER" />
 
 		<!-- <table schema="db_name" tableName="tb_table_name" domainObjectName="EntityName" 
@@ -59,7 +59,7 @@
 
 
 		<!-- % -->
-		<table tableName="t_country">
+		<table tableName="user_info">
 			<generatedKey column="id" sqlStatement="context1" identity="true" />
 		</table>
 	</context>
