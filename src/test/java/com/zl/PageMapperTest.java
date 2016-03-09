@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.hdy;
+package com.zl;
 
 import java.util.List;
 
@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hdy.mapper.TCountryMapper;
-import com.hdy.model.TCountry;
+import com.zl.mapper.datasource1.TCountryMapper;
+import com.zl.model.datasource1.TCountry;
 
 import tk.mybatis.mapper.entity.Example;
 

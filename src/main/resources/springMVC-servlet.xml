@@ -27,12 +27,15 @@
 	</mvc:annotation-driven>
 
 	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
-	<context:component-scan base-package="com.hdy" />
+	<context:component-scan base-package="com.zl" />
+
+	<!-- enable autowire -->
+	<!-- <context:annotation-config /> -->
 
 	<bean id="stringHttpMessageConverter"
 		class="org.springframework.http.converter.StringHttpMessageConverter">
 		<!--<property name="supportedMediaTypes"> <list> <value>text/plain;charset=UTF-8</value> 
-			</list> </property>-->
+			</list> </property> -->
 	</bean>
 	<bean id="marshallingHttpMessageConverter"
 		class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">

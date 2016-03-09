@@ -1,4 +1,4 @@
-package com.hdy.controller;
+package com.zl.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
-import com.hdy.model.TCountry;
-import com.hdy.service.CountryService;
+import com.zl.model.datasource1.TCountry;
+import com.zl.service.datasource1.CountryService;
 
 /**
  * @author liuzh_3nofxnp

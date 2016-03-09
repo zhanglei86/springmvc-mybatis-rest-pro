@@ -1,4 +1,4 @@
-package com.hdy.model;
+package com.zl.model.datasource1;
 
 import javax.persistence.*;
 

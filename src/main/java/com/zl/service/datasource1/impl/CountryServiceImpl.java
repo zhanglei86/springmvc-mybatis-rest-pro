@@ -1,13 +1,13 @@
-package com.hdy.service.impl;
+package com.zl.service.datasource1.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
-import com.hdy.base.BaseServiceImpl;
-import com.hdy.model.TCountry;
-import com.hdy.service.CountryService;
+import com.zl.base.BaseServiceImpl;
+import com.zl.model.datasource1.TCountry;
+import com.zl.service.datasource1.CountryService;
 
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.StringUtil;
