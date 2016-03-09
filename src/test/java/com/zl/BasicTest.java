@@ -15,7 +15,5 @@ public class BasicTest {
 	@Test
 	public void testBase(){
 		System.out.println("hello!");
-		System.out.println("shenzhen!");
-		System.out.println("CN!");
 	}
 }

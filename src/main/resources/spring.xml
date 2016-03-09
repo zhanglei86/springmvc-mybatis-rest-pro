@@ -10,7 +10,7 @@
 
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:config.properties" />
-	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+	<!--或 <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
 		<property name="locations"> <value>classpath:config.properties</value> </property> 
 		</bean> -->
 
