@@ -22,13 +22,13 @@
 		<!-- spring -->
 		<spring.version>4.2.4.RELEASE</spring.version>
 		<!-- mysql -->
-		<mysql-connector.version>5.1.37</mysql-connector.version>
+		<mysql-connector.version>5.1.38</mysql-connector.version>
 
 		<!-- mybatis和依赖版本 -->
 		<mybatis.version>3.3.1</mybatis.version>
 		<mybatis.spring.version>1.2.4</mybatis.spring.version>
 		<mybatis.generator.version>1.3.2</mybatis.generator.version>
-		<mapper.version>3.3.6</mapper.version>
+		<mapper.version>3.3.7</mapper.version>
 		<pagehelper.version>4.1.2</pagehelper.version>
 		<!-- MyBatis Generator和配置 -->
 		<!-- Java接口和实体类 -->
@@ -175,7 +175,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
-			<version>1.0.16</version>
+			<version>1.0.18</version>
 		</dependency>
 		<!-- myBatis -->
 		<dependency>
