@@ -4,9 +4,9 @@
 	<groupId>com.zl</groupId>
 	<artifactId>springmvc-mybatis-rest-pro</artifactId>
 	<packaging>war</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>springmvc-mybatis-rest-pro-Maven-Webapp</name>
-	<description>pro</description>
+	<version>1.0</version>
+	<name>springmvc-mybatis-rest-pro</name>
+	<description>springmvc-mybatis-rest-pro-Maven-Webapp</description>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -16,7 +16,6 @@
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<!-- <maven-war-plugin.version>2.3</maven-war-plugin.version> <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
 			<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version> -->
-		<slf4j.version>1.4.3</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
 
 		<!-- spring -->
@@ -43,6 +42,27 @@
 	</properties>
 
 	<dependencies>
+	
+		<!-- java-util -->
+		<dependency>
+			<groupId>com.cedarsoftware</groupId>
+			<artifactId>java-util</artifactId>
+			<version>1.22.0</version>
+		</dependency>
+		<!-- log -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+			<!--<scope>runtime</scope> -->
+		</dependency>
+		<!-- web jars -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>2.0.3</version>
+		</dependency>
+	
 		<!-- spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -120,13 +140,15 @@
 		</dependency>
 
 		<!-- json -->
+		<!-- json old -->
+<!-- 
 		<dependency>
 			<groupId>net.sf.json-lib</groupId>
 			<artifactId>json-lib</artifactId>
 			<version>2.4</version>
 			<classifier>jdk15</classifier>
 		</dependency>
-		<!-- json old -->
+ -->
 		<!-- <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-asl</artifactId>
 			<version>${codehaus-jackson.version}</version> </dependency> <dependency>
 			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-core-asl</artifactId>
@@ -163,6 +185,12 @@
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-xml</artifactId>
 			<version>2.4.2</version>
+		</dependency>
+		<!-- fast-json -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.8</version>
 		</dependency>
 
 		<!-- 添加mysql驱动包 -->
@@ -256,13 +284,6 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- log -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-			<!--<scope>runtime</scope> -->
-		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -277,13 +298,6 @@
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.3.1</version>
-		</dependency>
-
-		<!-- web jars -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>2.0.3</version>
 		</dependency>
 
 	</dependencies>
