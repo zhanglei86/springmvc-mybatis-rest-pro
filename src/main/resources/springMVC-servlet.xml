@@ -8,13 +8,17 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc
-	http://www.springframework.org/schema/mvc/spring-mvc.xsd
-	">
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+	default-lazy-init="false">
 
-	<mvc:default-servlet-handler />
-	<!-- 对静态资源文件的访问 支持访问WEB-INF目录 -->
-	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<mvc:resources mapping="/images/**" location="/images/" />
+	<!-- 只扫描Controller 注解 -->
+	<context:component-scan base-package="com.zl"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
 
 	<!--RequestMappingHandlerAdapter -->
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
@@ -26,8 +30,17 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
-	<context:component-scan base-package="com.zl" />
+	<!-- 静态资源和文件的访问和映射，支持访问WEB-INF目录 -->
+	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/images/**" location="/images/" />
+
+	<mvc:default-servlet-handler />
+
+	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/**" /> 剔除所有的静态资源访问拦截器 
+		<mvc:exclude-mapping path="/static/**" /> <bean class="com.monee.system.interceptor.SystemAuthInterceptor"/> 
+		</mvc:interceptor> </mvc:interceptors> -->
+
 
 	<!-- enable autowire -->
 	<!-- <context:annotation-config /> -->
