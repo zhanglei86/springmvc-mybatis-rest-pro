@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-lazy-init="false">
+
+	<!-- Shiro Filter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/success" />
+		<property name="unauthorizedUrl" value="/login" />
+		<!-- 
+		<property name="filterChainDefinitions">
+			<value>
+				/login = authc
+				/user/** = authc
+				/role/edit/* = perms[role:edit]
+				/role/save = perms[role:edit]
+				/role/list = perms[role:view]
+				/** =
+				authc
+			</value>
+		</property>
+		 -->
+	</bean>
+
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="systemRealm" />
+	</bean>
+
+	<bean id="systemRealm" class="com.zl.system.shiro.SystemRealm" />
+
+</beans>

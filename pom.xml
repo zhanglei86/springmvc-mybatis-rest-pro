@@ -17,10 +17,12 @@
 		<!-- <maven-war-plugin.version>2.3</maven-war-plugin.version> <maven-resources-plugin.version>2.6</maven-resources-plugin.version> 
 			<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version> -->
 		<log4j.version>1.2.17</log4j.version>
+		<commons-logging.version>1.2</commons-logging.version>
+		<slf4j.version>1.7.6</slf4j.version>
 
 		<!-- spring -->
 		<spring.version>4.2.4.RELEASE</spring.version>
-    <!-- shiro -->
+		<!-- shiro -->
 		<shiro.version>1.2.4</shiro.version>
 		<!-- mysql -->
 		<mysql-connector.version>5.1.38</mysql-connector.version>
@@ -58,6 +60,22 @@
 			<version>${log4j.version}</version>
 			<!--<scope>runtime</scope> -->
 		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
 		<!-- 添加junit单元测试包 -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -104,6 +122,9 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 		</dependency>
+		<!--spring-aop依赖 -->
+		<!-- <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId> 
+			<version>1.8.6</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-instrument</artifactId>
@@ -173,10 +194,7 @@
 			<artifactId>castor-xml</artifactId>
 			<version>1.3.3</version>
 		</dependency>
-		<!--spring-aop依赖 -->
-		<!-- <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId> 
-			<version>1.8.6</version> </dependency> -->
-			
+
 		<!-- spring end -->
 
 		<!-- json -->
@@ -271,7 +289,7 @@
 			<version>${mapper.version}</version>
 		</dependency>
 
-    <!-- Shiro Start -->
+		<!-- Shiro Start -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>

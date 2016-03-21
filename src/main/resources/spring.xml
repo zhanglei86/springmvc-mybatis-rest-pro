@@ -27,4 +27,7 @@
 	<!-- 启用aop注解 -->
 	<aop:aspectj-autoproxy expose-proxy="true" />
 
+	<import resource="classpath*:spring-jdbc.xml" />
+	<import resource="classpath*:spring-shiro.xml" />
+
 </beans>
