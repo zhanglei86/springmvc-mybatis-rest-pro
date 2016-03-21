@@ -13,9 +13,9 @@ public class TestController {
 	 * @param param
 	 * @return
 	 */
-	@RequestMapping(value = { "", "index" })
+	@RequestMapping(value = { "", "indexTest" })
 	public String testIndex(String param) {
 
-		return "testIndex";
+		return "../../indexTest";
 	}
 }

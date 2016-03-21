@@ -29,7 +29,7 @@ public class SystemAuthInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		if (modelAndView != null && modelAndView.getViewName() != null)
-			logger.debug("view-----------" + modelAndView.getViewName());
+			logger.debug("view---------in-SystemAuthInterceptor-Java" + modelAndView.getViewName());
 		super.postHandle(request, response, handler, modelAndView);
 	}
 }

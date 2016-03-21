@@ -9,7 +9,7 @@
 </head>
 <body>
 
-	<form action="<%=request.getContextPath()%>/login" method="post">
+	<form action="<%=request.getContextPath()%>/login" method="POST">
 		用户名:<input name="username" type="text"><br/>
 		密&nbsp;码:<input name="password" type="password"><br/>
 		<button type="submit">OK</button>

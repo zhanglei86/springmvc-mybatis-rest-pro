@@ -9,5 +9,6 @@
 </head>
 <body>
 ${msg}
+<p><a href="<%=request.getContextPath()%>/logout">loginOut</a></p>
 </body>
 </html>

@@ -21,29 +21,16 @@
 	</context:component-scan>
 
 	<!-- 静态资源和文件的访问和映射，支持访问WEB-INF目录 -->
-	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:resources mapping="/images/**" location="/images/" />
-	<!-- <mvc:resources mapping="/static/**" location="/WEB-INF111/static/" 
-		/> -->
-	<mvc:default-servlet-handler />
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/**" />
-			<!-- 剔除所有的静态资源访问拦截器 -->
-			<mvc:exclude-mapping path="/static/**" />
-			<bean class="com.zl.system.interceptor.SystemAuthInterceptor" />
-		</mvc:interceptor>
-	</mvc:interceptors>
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 
+	<mvc:default-servlet-handler />
+	
 	<!-- enable autowire -->
 	<!-- <context:annotation-config /> -->
 
 	<!--RequestMappingHandlerAdapter -->
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
-	<!-- <mvc:annotation-driven/>相当于注册了DefaultAnnotationHandlerMapping和AnnotationMethodHandlerAdapter两个bean， 
-		配置一些messageconverter。即解决了@Controller注解的使用前提配置。 <mvc:annotation-driven/>配置后，相应的URL请求被Controller处理，而静态资源因为没有相应的Controller就会被default 
-		servlet处理。 总之没有相应的Controller就会被default servlet处理。 -->
-
 	<mvc:annotation-driven>
 		<mvc:message-converters>
 			<ref bean="stringHttpMessageConverter" />
