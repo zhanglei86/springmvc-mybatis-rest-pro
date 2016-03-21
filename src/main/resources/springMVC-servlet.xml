@@ -20,6 +20,20 @@
 			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
 	</context:component-scan>
 
+	<mvc:default-servlet-handler />
+
+	<!-- 静态资源和文件的访问和映射，支持访问WEB-INF目录 -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<!-- <mvc:resources mapping="/static/**" location="/WEB-INF/static/" /> -->
+
+	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/**" /> 剔除所有的静态资源访问拦截器 
+		<mvc:exclude-mapping path="/static/**" /> <bean class="com.monee.system.interceptor.SystemAuthInterceptor"/> 
+		</mvc:interceptor> </mvc:interceptors> -->
+
+	<!-- enable autowire -->
+	<!-- <context:annotation-config /> -->
+
 	<!--RequestMappingHandlerAdapter -->
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
 	<mvc:annotation-driven>
@@ -29,21 +43,6 @@
 			<ref bean="mappingJackson2HttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-
-	<!-- 静态资源和文件的访问和映射，支持访问WEB-INF目录 -->
-	<mvc:resources mapping="/static/**" location="/WEB-INF/static/" />
-	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<mvc:resources mapping="/images/**" location="/images/" />
-
-	<mvc:default-servlet-handler />
-
-	<!-- <mvc:interceptors> <mvc:interceptor> <mvc:mapping path="/**" /> 剔除所有的静态资源访问拦截器 
-		<mvc:exclude-mapping path="/static/**" /> <bean class="com.monee.system.interceptor.SystemAuthInterceptor"/> 
-		</mvc:interceptor> </mvc:interceptors> -->
-
-
-	<!-- enable autowire -->
-	<!-- <context:annotation-config /> -->
 
 	<bean id="stringHttpMessageConverter"
 		class="org.springframework.http.converter.StringHttpMessageConverter">
