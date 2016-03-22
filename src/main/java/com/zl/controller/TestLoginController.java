@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,11 +21,11 @@ public class TestLoginController {
 
 	@RequestMapping(value = { "", "login" }, method = RequestMethod.GET)
 	public String testIndex(Model model, HttpServletRequest request) throws Exception {
+		ensureUserIsLoggedOut();
 		logger.debug("…………………………………………………开始登录…………………………………………………………………");
-		Subject subject = SecurityUtils.getSubject();
+		Subject subject = getSubject();
 		logger.debug("………………………………………………subject…………………………………………………………………" + subject);
 		Object object = subject.getPrincipal();
-		// Session session = subject.getSession();
 		if (object != null) {
 			return "redirect:/auth/success";
 		}
@@ -52,7 +53,37 @@ public class TestLoginController {
 		logger.debug("…………………………………………………注销中…………………………………………………………………");
 		SecurityUtils.getSubject().logout();
 		model.addAttribute("msg", "注销完成OK!");
-		return "auth/login";
+		return "/auth/login";
+	}
+
+	// org.apache.shiro.session.UnknownSessionException: There is no session with id
+	// Clean way to get the subject
+	private Subject getSubject() {
+		Subject currentUser = ThreadContext.getSubject();
+		if (currentUser == null) {
+			currentUser = SecurityUtils.getSubject();
+		}
+		return currentUser;
+	}
+
+	// Logout the user fully before continuing.
+	private void ensureUserIsLoggedOut() {
+		try {
+			// Get the user if one is logged in.
+			Subject currentUser = getSubject();
+			if (currentUser == null)
+				return;
+			// Log the user out and kill their session if possible.
+			currentUser.logout();
+			Session session = currentUser.getSession(false);
+			if (session == null)
+				return;
+			session.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// Ignore all errors, as we're trying to silently
+			// log the user out.
+		}
 	}
 
 }
