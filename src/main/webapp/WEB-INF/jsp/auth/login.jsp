@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@page isELIgnored="false" %>
+	pageEncoding="UTF-8"%>
+<%@page isELIgnored="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,11 +9,12 @@
 </head>
 <body>
 
-	<form action="<%=request.getContextPath()%>/login" method="POST">
-		用户名:<input name="username" type="text"><br/>
-		密&nbsp;码:<input name="password" type="password"><br/>
+	<form action="<%=request.getContextPath()%>/auth/login" method="POST">
+		用户名:<input name="username" type="text"><br /> 密&nbsp;码:<input
+			name="password" type="password"><br />
 		<button type="submit">OK</button>
 		${msg}
 	</form>
+
 </body>
 </html>

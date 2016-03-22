@@ -11,15 +11,15 @@
 		<!-- shiro的核心安全接口 -->
 		<property name="securityManager" ref="securityManager" />
 		<!-- 要求登录时的链接 -->
-		<property name="loginUrl" value="/login" />
+		<property name="loginUrl" value="/auth/login" />
 		<!-- 登陆成功后要跳转的连接 -->
-		<property name="successUrl" value="/success" />
+		<property name="successUrl" value="/auth/success" />
 		<!-- 未授权时要跳转的连接 -->
-		<property name="unauthorizedUrl" value="/login" />
+		<property name="unauthorizedUrl" value="/auth/login" />
 		<!-- shiro连接约束配置 -->
 		<property name="filterChainDefinitions">
 			<value>
-				/login = authc
+				/auth/login = authc
 				/logoutlogout = logout
 				/resource/** = anon
 
