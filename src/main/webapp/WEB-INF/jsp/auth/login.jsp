@@ -8,13 +8,19 @@
 <title>登录</title>
 </head>
 <body>
-
-	<form action="<%=request.getContextPath()%>/auth/login" method="POST">
-		用户名:<input name="username" type="text"><br /> 密&nbsp;码:<input
-			name="password" type="password"><br />
-		<button type="submit">OK</button>
-		${msg}
-	</form>
-
+	<div>
+		<form action="<%=request.getContextPath()%>/auth/login" method="POST">
+			<div>
+				用户名:<input name="j_username" id="id_j_username" type="text">
+			</div>
+			<div>
+				密&nbsp;码:<input name="j_password" id="id_j_password" type="password">
+			</div>
+			<div>
+				<button type="submit">OK</button>
+			</div>
+			<div>${msg}</div>
+		</form>
+	</div>
 </body>
 </html>

@@ -64,12 +64,12 @@
 	<!-- 会话管理器 -->
 	<bean id="sessionManager"
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="sessionValidationSchedulerEnabled" value="true" />
+		<property name="sessionIdCookieEnabled" value="true" />
 		<property name="globalSessionTimeout" value="1800000" />
 		<property name="deleteInvalidSessions" value="true" />
-		<property name="sessionValidationSchedulerEnabled" value="true" />
 		<property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
 		<property name="sessionDAO" ref="sessionDAO" />
-		<property name="sessionIdCookieEnabled" value="true" />
 		<property name="sessionIdCookie" ref="sessionIdCookie" />
 	</bean>
 
@@ -90,10 +90,13 @@
 	</bean>
 
 	<!-- 基于Form表单的身份验证过滤器 -->
-	<!-- <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter"> 
-		<property name="usernameParam" value="j_username" /> <property name="passwordParam" 
-		value="j_password" /> <property name="rememberMeParam" value="rememberMe" 
-		/> <property name="loginUrl" value="/auth/login" /> </bean> -->
+	<bean id="formAuthenticationFilter"
+		class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+		<property name="usernameParam" value="j_username" />
+		<property name="passwordParam" value="j_password" />
+		<property name="rememberMeParam" value="rememberMe" />
+		<property name="loginUrl" value="/auth/login" />
+	</bean>
 	<bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
 		<property name="redirectUrl" value="/index" />
 	</bean>
@@ -112,19 +115,21 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/auth/login = authc
-				/authlogout = logout
 				/authenticated= authc
-				/resources/** = anon
+				/auth/logout = logout
+				/resources/** = authcBasic
+				/images/** = anon
+				/country/** = rest
 				/** =authc
 
-				<!--  /user/** = authc /role/edit/* = perms[role:edit] 
-					/role/save = perms[role:edit] /role/list = perms[role:view] -->
+				<!-- /user/** = authc /role/edit/* = perms[role:edit] /role/save = perms[role:edit] 
+					/role/list = perms[role:view] -->
 			</value>
 		</property>
 
 		<property name="filters">
 			<util:map>
-				<!-- <entry key="authc" value-ref="formAuthenticationFilter" /> -->
+				<entry key="authc" value-ref="formAuthenticationFilter" />
 				<entry key="logout" value-ref="logoutFilter" />
 			</util:map>
 		</property>

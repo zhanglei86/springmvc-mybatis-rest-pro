@@ -51,7 +51,7 @@ public class CountryController {
 	}
 
 	@ResponseBody
-	@RequestMapping("/countrys")
+	@RequestMapping("/country/all")
 	public List<TCountry> selectAll() {
 		return countryService.selectAll();
 	}

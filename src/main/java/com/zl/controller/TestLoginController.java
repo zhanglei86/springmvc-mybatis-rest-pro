@@ -3,15 +3,21 @@ package com.zl.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
+import org.apache.shiro.authc.ExpiredCredentialsException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping(value = "auth")
@@ -19,24 +25,50 @@ public class TestLoginController {
 
 	private Logger logger = LoggerFactory.getLogger(TestLoginController.class);
 
-	@RequestMapping(value = { "", "login" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "", "login" })
 	public String testIndex(Model model, HttpServletRequest request) throws Exception {
-		ensureUserIsLoggedOut();
-		logger.debug("…………………………………………………开始登录…………………………………………………………………");
-		Subject subject = getSubject();
-		logger.debug("………………………………………………subject…………………………………………………………………" + subject);
-		Object object = subject.getPrincipal();
-		if (object != null) {
-			return "redirect:/auth/success";
-		}
-		return "auth/login";
+		// ensureUserIsLoggedOut();
 
+		String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
+		if (exceptionClassName != null && !"".equals(exceptionClassName)) {
+			String error = null;
+			if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
+				error = "账号不存在!";
+			} else if (DisabledAccountException.class.getName().equals(exceptionClassName)) {
+				error = "帐号被禁用!";
+			} else if (LockedAccountException.class.getName().equals(exceptionClassName)) {
+				error = "帐号被锁定!";
+			} else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+				error = "用户名/密码错误";
+			} else if (ExcessiveAttemptsException.class.getName().equals(exceptionClassName)) {
+				error = "登录失败次数过多";
+			} else if (ExpiredCredentialsException.class.getName().equals(exceptionClassName)) {
+				error = "凭证过期";
+			} else {
+				error = "其他错误：" + exceptionClassName;
+			}
+			model.addAttribute("msg", error);
+			return "auth/login";
+		}
+
+		logger.debug("…………………………………………………开始登录…………………………………………………………………");
+		Subject currentUser = ThreadContext.getSubject();
+		if (currentUser == null) {
+			currentUser = SecurityUtils.getSubject();
+		}
+		logger.debug("………………………………………………subject…………………………………………………………………" + currentUser);
+		if (currentUser.getPrincipal() != null) {
+			logger.debug("…………………………………………………/auth/login check OK!…………………………………………………………………");
+			return "redirect:/auth/success";
+		} else {
+			logger.debug("…………………………………………………/auth/login check fail!…………………………………………………………………");
+			return "auth/login";
+		}
 	}
 
 	@RequestMapping(value = { "success" })
 	public String success(Model model, HttpServletRequest request) throws Exception {
-		Object object = SecurityUtils.getSubject().getPrincipal();
-		if (object == null) {
+		if (SecurityUtils.getSubject().getPrincipal() == null) {
 			logger.debug("…………………………………………………未登陆…………………………………………………………………");
 			model.addAttribute("msg", "未登陆，请先登陆!");
 			return "auth/login";
@@ -51,28 +83,20 @@ public class TestLoginController {
 	@RequestMapping(value = { "logout" })
 	public String logout(Model model, HttpServletRequest request) throws Exception {
 		logger.debug("…………………………………………………注销中…………………………………………………………………");
-		SecurityUtils.getSubject().logout();
+		ensureUserIsLoggedOut();
 		model.addAttribute("msg", "注销完成OK!");
 		return "/auth/login";
-	}
-
-	// org.apache.shiro.session.UnknownSessionException: There is no session with id
-	// Clean way to get the subject
-	private Subject getSubject() {
-		Subject currentUser = ThreadContext.getSubject();
-		if (currentUser == null) {
-			currentUser = SecurityUtils.getSubject();
-		}
-		return currentUser;
 	}
 
 	// Logout the user fully before continuing.
 	private void ensureUserIsLoggedOut() {
 		try {
 			// Get the user if one is logged in.
-			Subject currentUser = getSubject();
-			if (currentUser == null)
+			Subject currentUser = ThreadContext.getSubject();
+			if (currentUser == null) {
+				currentUser = SecurityUtils.getSubject();
 				return;
+			}
 			// Log the user out and kill their session if possible.
 			currentUser.logout();
 			Session session = currentUser.getSession(false);
