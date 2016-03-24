@@ -51,9 +51,21 @@ public class CountryController {
 	}
 
 	@ResponseBody
-	@RequestMapping("/country/all")
+	@RequestMapping(value = "/country/all",method = RequestMethod.GET)
 	public List<TCountry> selectAll() {
 		return countryService.selectAll();
+	}
+
+	// update test
+	@RequestMapping(value = "/country/{id:\\d+}", method = RequestMethod.PUT)
+	public @ResponseBody String update(@PathVariable("id") int id) {
+		// ModelAndView result = new ModelAndView(redirect_list);
+		TCountry tCountry = new TCountry();
+		tCountry = countryService.selectByKey(id);
+		tCountry.setCountryname("ZLTest888");
+		tCountry.setCountrycode("ZL888");
+		int i = countryService.updateAll(tCountry);
+		return i + "";
 	}
 
 	@RequestMapping(value = { "list", "index", "index.html", "" })
