@@ -77,9 +77,10 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>springMVC123</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- 接收PUT提交 -->
 	<filter>
 		<filter-name>httpPutFormFilter</filter-name>
 		<filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
@@ -162,4 +163,25 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 		<dispatcher>INCLUDE</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
+
+	<!-- javax.naming.NameNotFoundException -->
+	<context-param>
+		<param-name>spring.profiles.active</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+	<context-param>
+		<param-name>spring.profiles.default</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+	<context-param>
+		<param-name>spring.liveBeansView.mbeanDomain</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+
+	<!-- Tomcat设置 -->
+	<session-config>
+		<!-- Disables URL-based sessions (no more 'jsessionid' in the URL using 
+			Tomcat) -->
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config>
 </web-app>

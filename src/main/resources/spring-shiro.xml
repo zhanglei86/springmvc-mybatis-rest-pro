@@ -29,6 +29,8 @@
 	<!-- 会话Cookie模板 -->
 	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<constructor-arg value="sid" />
+		<!--设置Cookie名字，默认为JSESSIONID -->
+		<property name="name" value="WEBSID" />
 		<property name="httpOnly" value="true" />
 		<property name="maxAge" value="-1" />
 	</bean>
@@ -114,13 +116,13 @@
 		<!-- shiro连接约束配置 -->
 		<property name="filterChainDefinitions">
 			<value>
-				/auth/login = authc
-				/authenticated= authc
-				/auth/logout = logout
-				/resources/** = authcBasic
-				/images/** = anon
-				/country/** = rest
-				/** =authc
+				/auth/login=authc
+				/authenticated=authc
+				/auth/logout=logout
+				/resources/**=authcBasic
+				/images/**=anon
+				/country/**=rest
+				/**=authc
 
 				<!-- /user/** = authc /role/edit/* = perms[role:edit] /role/save = perms[role:edit] 
 					/role/list = perms[role:view] -->
