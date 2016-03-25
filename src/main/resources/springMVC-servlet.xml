@@ -8,13 +8,26 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc
-	http://www.springframework.org/schema/mvc/spring-mvc.xsd
-	">
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+	default-lazy-init="false">
+
+	<!-- 只扫描Controller 注解 -->
+	<context:component-scan base-package="com.zl"
+		use-default-filters="false">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:include-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<!-- 静态资源和文件的访问和映射，支持访问WEB-INF目录 -->
+	<mvc:resources mapping="/images/**" location="/images/" />
+	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 
 	<mvc:default-servlet-handler />
-	<!-- 对静态资源文件的访问 支持访问WEB-INF目录 -->
-	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<mvc:resources mapping="/images/**" location="/images/" />
+	
+	<!-- enable autowire -->
+	<!-- <context:annotation-config /> -->
 
 	<!--RequestMappingHandlerAdapter -->
 	<!-- 启动注解驱动的Spring MVC功能，注册请求url和注解POJO类方法的映射 -->
@@ -25,12 +38,6 @@
 			<ref bean="mappingJackson2HttpMessageConverter" />
 		</mvc:message-converters>
 	</mvc:annotation-driven>
-
-	<!-- 启动包扫描功能，以便注册带有@Controller、@Service、@repository、@Component等注解的类成为spring的bean -->
-	<context:component-scan base-package="com.zl" />
-
-	<!-- enable autowire -->
-	<!-- <context:annotation-config /> -->
 
 	<bean id="stringHttpMessageConverter"
 		class="org.springframework.http.converter.StringHttpMessageConverter">

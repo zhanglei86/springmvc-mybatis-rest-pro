@@ -18,41 +18,34 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="
-            http://java.sun.com/xml/ns/javaee
-            http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 	<display-name>springmvc-mybatis--pro</display-name>
 
-	<!-- 设置Spring容器加载配置文件路径 -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring.xml,classpath:spring-jdbc.xml</param-value>
-	</context-param>
+	<!-- 1 Spring分为多个文件进行分别的配置，其中在servlet-name中如果没有指定init-param属性， 那么系统自动寻找的spring配置文件为[servlet-name]-servlet.xml。 
+		2 当需要载入多个spring相关的配置文件时，首先加载ContextLoaderListener类， 再指定context-param中指定多个spring配置文件， 
+		使用逗号分别隔开各个文件。 为了使用方便可以将配置文件进行MVC式的分解，配置控制器Bean的配置文件放置在一个xml文件中， server的Bean放在service.xml文件中。 
+		3 <servlet-mapping>指定的该servlet接管的url的行为，此处为了简便起见使用*.*, 则表示在URL只要是在本机使用的任何request都是由该dispatchServlet来处理。 -->
+
 
 	<!-- listener -->
+	<!-- 实例话spring容器。应用启动时,该监听器被执行,它会读取Spring相关配置文件,其默认会到WEB-INF中查找applicationContext*.xml -->
 	<listener>
 		<description>Spring监听器</description>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+	<!-- 设置Spring容器加载配置文件路径 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring.xml</param-value>
+	</context-param>
+
 	<!-- Spring的log4j监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-
-	<!-- Spring MVC DispatcherServlet -->
-	<servlet>
-		<servlet-name>springMVC123</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:springMVC-servlet.xml</param-value>
-		</init-param>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>springMVC123</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
 
 	<!-- 字符集过滤器 -->
 	<filter>
@@ -71,4 +64,124 @@
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+	<!-- Spring MVC DispatcherServlet -->
+	<servlet>
+		<servlet-name>springMVC123</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:springMVC-servlet.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>springMVC123</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- 接收PUT提交 -->
+	<filter>
+		<filter-name>httpPutFormFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>httpPutFormFilter</filter-name>
+		<servlet-name>springMVC123</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- Druid,监控数据库,以及WEB访问连接信息 -->
+	<!-- 参考: https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_%E9%85%8D%E7%BD%AEWebStatFilter -->
+	<filter>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+		<init-param>
+			<param-name>exclusions</param-name>
+			<param-value>*.js,*.gif,*.jpg,*.png,*.css,*.ico,*.jsp,/druid/*,/download/*</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sessionStatMaxCount</param-name>
+			<param-value>2000</param-value>
+		</init-param>
+		<init-param>
+			<param-name>sessionStatEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>principalSessionName</param-name>
+			<param-value>session_user_key</param-value>
+		</init-param>
+		<init-param>
+			<param-name>profileEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>DruidWebStatFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 配置 Druid 监控信息显示页面 -->
+	<servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+		<init-param>
+			<!-- 允许清空统计数据 -->
+			<param-name>resetEnable</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<!-- 用户名 -->
+			<param-name>loginUsername</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+		<init-param>
+			<!-- 密码 -->
+			<param-name>loginPassword</param-name>
+			<param-value>druid</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Shiro filter -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<!-- javax.naming.NameNotFoundException -->
+	<context-param>
+		<param-name>spring.profiles.active</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+	<context-param>
+		<param-name>spring.profiles.default</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+	<context-param>
+		<param-name>spring.liveBeansView.mbeanDomain</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+
+	<!-- Tomcat设置 -->
+	<session-config>
+		<!-- Disables URL-based sessions (no more 'jsessionid' in the URL using 
+			Tomcat) -->
+		<!-- <tracking-mode>COOKIE</tracking-mode> -->
+	</session-config>
 </web-app>

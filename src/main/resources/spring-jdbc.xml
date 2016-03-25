@@ -13,8 +13,8 @@
 	http://www.springframework.org/schema/tx
 	http://www.springframework.org/schema/tx/spring-tx.xsd
     http://www.springframework.org/schema/jdbc
-    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-	">
+    http://www.springframework.org/schema/jdbc/spring-jdbc.xsd"
+	default-lazy-init="false">
 
 	<!-- start -->
 	<!-- 配置数据源，使用的是alibaba的Druid(德鲁伊)数据源 -->
@@ -65,10 +65,13 @@
 
 	</bean>
 
+
 	<!-- mybatis配置 -->
 	<bean id="sqlSessionFactory1" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
 		<property name="dataSource" ref="dataSource1" />
+		<!-- Mybatis自身的配置文件，一般用来声明别名 -->
+		<property name="configLocation" value="classpath:mybatis-sqlconfig.xml" />
 		<property name="mapperLocations">
 			<array>
 				<value>classpath:mapper/datasource1/*.xml</value>
@@ -103,85 +106,69 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
 		scope="prototype">
 		<constructor-arg index="0" ref="sqlSessionFactory1" />
+		<!--- 如果想要进行批量操作可加入这个属性 -->
+		<!-- <constructor-arg index="1" value="BATCH" /> -->
 	</bean>
+
 
 	<!-- 配置Spring的事务管理器 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource1" />
-		<qualifier value="isap" />
+		<!-- <qualifier value="isap" /> -->
 	</bean>
 
 	<!-- 全注解方式 需加上@Transactional -->
-	<!-- <tx:annotation-driven id="txAdvice" transaction-manager="transactionManager" 
-		/> -->
+	<!-- <tx:annotation-driven id="txAdvice1" proxy-target-class="true" transaction-manager="transactionManager"/> -->
+
 	<!-- 声明式事务,拦截器方式配置事物 -->
 	<tx:advice id="txAdvice1" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="select*" read-only="true" />
-			<tx:method name="find*" read-only="true" />
-			<tx:method name="get*" read-only="true" />
-			<tx:method name="*" />
-
-			<!-- <tx:method name="add*" propagation="REQUIRED" /> <tx:method name="append*" 
-				propagation="REQUIRED" /> <tx:method name="insert*" propagation="REQUIRED" 
-				/> <tx:method name="save*" propagation="REQUIRED" /> <tx:method name="update*" 
-				propagation="REQUIRED" /> <tx:method name="modify*" propagation="REQUIRED" 
-				/> <tx:method name="edit*" propagation="REQUIRED" /> <tx:method name="delete*" 
-				propagation="REQUIRED" /> <tx:method name="remove*" propagation="REQUIRED" 
-				/> <tx:method name="repair" propagation="REQUIRED" /> <tx:method name="delAndRepair" 
-				propagation="REQUIRED" /> <tx:method name="get*" propagation="SUPPORTS" /> 
-				<tx:method name="find*" propagation="SUPPORTS" /> <tx:method name="load*" 
-				propagation="SUPPORTS" /> <tx:method name="search*" propagation="SUPPORTS" 
-				/> <tx:method name="datagrid*" propagation="SUPPORTS" /> <tx:method name="*" 
-				propagation="SUPPORTS" /> -->
+			<tx:method name="add*" propagation="REQUIRED" read-only="false"
+				isolation="READ_COMMITTED" rollback-for="java.lang.Exception" />
+			<tx:method name="insert*" propagation="REQUIRED" read-only="false"
+				isolation="READ_COMMITTED" rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false"
+				isolation="READ_COMMITTED" rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false"
+				isolation="READ_COMMITTED" rollback-for="java.lang.Exception" />
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false"
+				isolation="READ_COMMITTED" rollback-for="java.lang.Exception" />
+			<tx:method name="remove*" propagation="REQUIRED" read-only="false"
+				isolation="READ_COMMITTED" rollback-for="java.lang.Exception" />
+			<tx:method name="select*" read-only="false" />
+			<tx:method name="get*" propagation="SUPPORTS" />
+			<tx:method name="find*" propagation="SUPPORTS" />
+			<tx:method name="search*" propagation="SUPPORTS" />
+			<tx:method name="*" read-only="true" rollback-for="java.lang.Exception" />
 		</tx:attributes>
 	</tx:advice>
 
-	<!-- 事务控制拦截 -->
-	<!-- <aop:config proxy-target-class="true"> <aop:advisor pointcut="execution(* 
-		org.zhuc..*.service..*Service.*(..))" advice-ref="txAdvice" /> </aop:config> -->
-	<aop:config>
-		<aop:pointcut id="appService1"
-			expression="execution(* ${prj.groupId1}.service..*Service*.*(..))" />
+	<!-- 配置参与事务的类 -->
+	<aop:config expose-proxy="true" proxy-target-class="true">
+		<aop:pointcut id="appService1" expression="execution(* com.*.*.service.*.*(..))" />
 		<aop:advisor advice-ref="txAdvice1" pointcut-ref="appService1" />
 	</aop:config>
 
 	<!-- end -->
 
 
-	<!-- multi Datasource start-->
+	<!-- multi Datasource start -->
 	<!-- datasource2 start -->
-		<!-- copy start-end代码，改名datasource2等 -->
+	<!-- copy start-end代码，改名datasource2等 -->
 	<!-- datasource2 end -->
 
 	<!-- datasource3 start -->
-		<!-- and so on.. -->
+	<!-- and so on.. -->
 	<!-- datasource3 end -->
 
 
-	<!-- multi Datasource end-->
+	<!-- multi Datasource end -->
 
 
-	<aop:aspectj-autoproxy />
-
-
-	<!-- 配置druid监控spring jdbc -->
-	<bean id="druid-stat-interceptor"
-		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
-	</bean>
-	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-		scope="prototype">
-		<property name="patterns">
-			<list>
-				<value>${prj.groupId1}.*</value>
-			</list>
-		</property>
-	</bean>
-	<aop:config>
-		<aop:advisor advice-ref="druid-stat-interceptor"
-			pointcut-ref="druid-stat-pointcut" />
-	</aop:config>
+	<!-- <aop:aspectj-autoproxy /> -->
 
 
 
