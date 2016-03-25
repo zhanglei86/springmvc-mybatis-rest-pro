@@ -182,6 +182,6 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	<session-config>
 		<!-- Disables URL-based sessions (no more 'jsessionid' in the URL using 
 			Tomcat) -->
-		<tracking-mode>COOKIE</tracking-mode>
+		<!-- <tracking-mode>COOKIE</tracking-mode> -->
 	</session-config>
 </web-app>

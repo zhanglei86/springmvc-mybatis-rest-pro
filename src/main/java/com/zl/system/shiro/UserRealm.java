@@ -5,6 +5,8 @@ import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -69,6 +71,7 @@ public class UserRealm extends AuthorizingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
 			throws AuthenticationException {
+		// 1. 接受提交的当事人和证书：
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
 		String userName = token.getUsername();
 		String passWord = String.valueOf(token.getPassword());
@@ -80,7 +83,6 @@ public class UserRealm extends AuthorizingRealm {
 		 * Constants.USER_STATUS_LOCKED) { throw new LockedAccountException(); }
 		 */
 		logger.debug("……………………………………………………登录验证中……………………………………………………");
-
 		if (userName != null && !"".equals(userName)) {
 			logger.debug("userName:" + userName);
 			logger.debug("passWord:" + passWord);

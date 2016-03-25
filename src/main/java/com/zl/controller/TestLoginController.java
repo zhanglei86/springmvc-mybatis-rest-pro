@@ -25,8 +25,9 @@ public class TestLoginController {
 
 	private Logger logger = LoggerFactory.getLogger(TestLoginController.class);
 
+	// 登陆前置判断
 	@RequestMapping(value = { "", "login" })
-	public String testIndex(Model model, HttpServletRequest request) throws Exception {
+	public String loginTest(Model model, HttpServletRequest request) throws Exception {
 		// ensureUserIsLoggedOut();
 
 		String exceptionClassName = (String) request.getAttribute("shiroLoginFailure");
@@ -56,6 +57,7 @@ public class TestLoginController {
 		if (currentUser == null) {
 			currentUser = SecurityUtils.getSubject();
 		}
+		
 		logger.debug("………………………………………………subject…………………………………………………………………" + currentUser);
 		if (currentUser.getPrincipal() != null) {
 			logger.debug("…………………………………………………/auth/login check OK!…………………………………………………………………");
