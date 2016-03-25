@@ -42,32 +42,6 @@ public class CountryController {
 		return "{\"msg\":\"you say:'" + msg + "'\"}";
 	}
 
-	@RequestMapping(value = "/country/{id:\\d+}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	public @ResponseBody String getCountry(@PathVariable("id") int id) {
-		logger.info("获取国家id=" + id);
-		TCountry tCountry = new TCountry();
-		tCountry = countryService.selectByKey(id);
-		return tCountry.getCountryname();
-	}
-
-	@ResponseBody
-	@RequestMapping(value = "/country/all",method = RequestMethod.GET)
-	public List<TCountry> selectAll() {
-		return countryService.selectAll();
-	}
-
-	// update test
-	@RequestMapping(value = "/country/{id:\\d+}", method = RequestMethod.PUT)
-	public @ResponseBody String update(@PathVariable("id") int id) {
-		// ModelAndView result = new ModelAndView(redirect_list);
-		TCountry tCountry = new TCountry();
-		tCountry = countryService.selectByKey(id);
-		tCountry.setCountryname("ZLTest888");
-		tCountry.setCountrycode("ZL888");
-		int i = countryService.updateAll(tCountry);
-		return i + "";
-	}
-
 	@RequestMapping(value = { "list", "index", "index.html", "" })
 	public ModelAndView getList(TCountry country, @RequestParam(required = false, defaultValue = "1") int page,
 			@RequestParam(required = false, defaultValue = "10") int rows) {
@@ -105,6 +79,40 @@ public class CountryController {
 	public String delete(Integer id) {
 		countryService.delete(id);
 		return redirect_list;
+	}
+
+	@RequestMapping(value = "/country/{id:\\d+}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public @ResponseBody String getCountry(@PathVariable("id") int id) {
+		logger.info("获取国家id=" + id);
+		TCountry tCountry = new TCountry();
+		tCountry = countryService.selectByKey(id);
+		return tCountry.getCountryname();
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/country/all", method = RequestMethod.GET)
+	public List<TCountry> selectAll() {
+		return countryService.selectAll();
+	}
+
+	// update test
+	@RequestMapping(value = "/country/{id:\\d+}", method = RequestMethod.PUT)
+	public @ResponseBody String update(@PathVariable("id") int id) {
+		// ModelAndView result = new ModelAndView(redirect_list);
+		TCountry tCountry = new TCountry();
+		tCountry = countryService.selectByKey(id);
+		tCountry.setCountryname("ZLTest888");
+		tCountry.setCountrycode("ZL888");
+		int i = countryService.updateAll(tCountry);
+		return i + "";
+	}
+
+	// delete test
+	@RequestMapping(value = "/country/{id:\\d+}", method = RequestMethod.DELETE)
+	public @ResponseBody int delCountry(@PathVariable("id") int id) {
+		logger.info("获取国家id=" + id);
+		int i = countryService.delete(id);
+		return i;
 	}
 
 }
