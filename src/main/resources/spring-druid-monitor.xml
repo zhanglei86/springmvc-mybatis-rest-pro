@@ -14,7 +14,7 @@
 		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor" />
 	<aop:config>
 		<aop:advisor id="druidAdvisor" advice-ref="druid-stat-interceptor"
-			pointcut="execution(* com.*.*.service.*.*(..))" />
+			pointcut="execution(* win.*.*.service.*.*(..))" />
 	</aop:config>
 	<!-- -->
 

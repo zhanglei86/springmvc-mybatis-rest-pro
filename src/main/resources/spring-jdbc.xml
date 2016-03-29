@@ -95,7 +95,7 @@
 	<bean id="mapperScannerConfigurer1" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory1" />
 		<!-- 暂不支持${prj.groupId}的配置，因为spring的ContextLoaderListener报错 -->
-		<property name="basePackage" value="com.zl.mapper.datasource1" />
+		<property name="basePackage" value="win.leizhang.mapper.datasource1" />
 		<!-- 3.2.2版本新特性，markerInterface可以起到mappers配置的作用，详细情况需要看Marker接口类 -->
 		<!--<property name="markerInterface" value="com.isea533.mybatis.util.MyMapper" 
 			/> -->
@@ -148,7 +148,7 @@
 
 	<!-- 配置参与事务的类 -->
 	<aop:config expose-proxy="true" proxy-target-class="true">
-		<aop:pointcut id="appService1" expression="execution(* com.*.*.service.*.*(..))" />
+		<aop:pointcut id="appService1" expression="execution(* win.*.*.service.*.*(..))" />
 		<aop:advisor advice-ref="txAdvice1" pointcut-ref="appService1" />
 	</aop:config>
 

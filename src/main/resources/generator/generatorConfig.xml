@@ -59,7 +59,7 @@
 
 
 		<!-- % -->
-		<table tableName="user_info">
+		<table tableName="t_country">
 			<generatedKey column="id" sqlStatement="context1" identity="true" />
 		</table>
 	</context>

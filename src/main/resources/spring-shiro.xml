@@ -14,7 +14,7 @@
 	</bean>
 
 	<!-- Realm实现 -->
-	<bean id="userRealm" class="com.zl.system.shiro.UserRealm">
+	<bean id="userRealm" class="win.leizhang.system.shiro.UserRealm">
 		<property name="cachingEnabled" value="false" />
 		<property name="authenticationCachingEnabled" value="true" />
 		<property name="authenticationCacheName" value="authenticationCache" />
@@ -137,7 +137,7 @@
 		</property>
 	</bean>
 
-	<!-- <bean id="filterChainDefinitionMap" class="com.zl.system.shiro.ChainDefinitionSectionMetaSource"> 
+	<!-- <bean id="filterChainDefinitionMap" class="win.leizhang.system.shiro.ChainDefinitionSectionMetaSource"> 
 		<property name="filterChainDefinitions"> <value> </value> </property> </bean> -->
 
 	<!-- Shiro生命周期处理器 -->

@@ -1,5 +1,5 @@
 
-mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DgroupId=com.zl -DartifactId=springmvc-mybatis-rest-pro
+mvn archetype:generate -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false -DgroupId=win.leizhang -DartifactId=springmvc-mybatis-rest-pro
 
 USE `zea`;
 

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.zl</groupId>
+	<groupId>win.leizhang</groupId>
 	<artifactId>springmvc-mybatis-rest-pro</artifactId>
 	<packaging>war</packaging>
 	<version>1.1</version>
@@ -14,7 +14,7 @@
 		<JDK.version>1.8</JDK.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
-		<!-- <maven-war-plugin.version>2.3</maven-war-plugin.version> <maven-resources-plugin.version>2.6</maven-resources-plugin.version> 
+		<!-- <maven-war-plugin.version>2.3</maven-war-plugin.version> <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
 			<maven-eclipse-plugin.version>2.9</maven-eclipse-plugin.version> -->
 		<log4j.version>1.2.17</log4j.version>
 		<commons-logging.version>1.2</commons-logging.version>
@@ -123,7 +123,7 @@
 			<artifactId>spring-aspects</artifactId>
 		</dependency>
 		<!--spring-aop依赖 -->
-		<!-- <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId> 
+		<!-- <dependency> <groupId>org.aspectj</groupId> <artifactId>aspectjweaver</artifactId>
 			<version>1.8.6</version> </dependency> -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -199,17 +199,17 @@
 
 		<!-- json -->
 		<!-- json old -->
-		<!-- <dependency> <groupId>net.sf.json-lib</groupId> <artifactId>json-lib</artifactId> 
+		<!-- <dependency> <groupId>net.sf.json-lib</groupId> <artifactId>json-lib</artifactId>
 			<version>2.4</version> <classifier>jdk15</classifier> </dependency> -->
-		<!-- <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-asl</artifactId> 
-			<version>${codehaus-jackson.version}</version> </dependency> <dependency> 
-			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-core-asl</artifactId> 
-			<version>${codehaus-jackson.version}</version> </dependency> <dependency> 
-			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-lgpl</artifactId> 
-			<version>${codehaus-jackson.version}</version> </dependency> <dependency> 
-			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-core-lgpl</artifactId> 
-			<version>${codehaus-jackson.version}</version> </dependency> <dependency> 
-			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-jaxrs</artifactId> 
+		<!-- <dependency> <groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-asl</artifactId>
+			<version>${codehaus-jackson.version}</version> </dependency> <dependency>
+			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-core-asl</artifactId>
+			<version>${codehaus-jackson.version}</version> </dependency> <dependency>
+			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-mapper-lgpl</artifactId>
+			<version>${codehaus-jackson.version}</version> </dependency> <dependency>
+			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-core-lgpl</artifactId>
+			<version>${codehaus-jackson.version}</version> </dependency> <dependency>
+			<groupId>org.codehaus.jackson</groupId> <artifactId>jackson-jaxrs</artifactId>
 			<version>${codehaus-jackson.version}</version> </dependency> -->
 		<!-- json new -->
 		<dependency>
@@ -315,7 +315,7 @@
 			<artifactId>shiro-ehcache</artifactId>
 			<version>${shiro.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-features</artifactId> 
+		<!-- <dependency> <groupId>org.apache.shiro</groupId> <artifactId>shiro-features</artifactId>
 			<version>${shiro.version}</version> </dependency> -->
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
