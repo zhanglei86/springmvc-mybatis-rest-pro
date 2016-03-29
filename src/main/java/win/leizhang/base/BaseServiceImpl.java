@@ -78,4 +78,12 @@ public abstract class BaseServiceImpl<T> implements BaseServiceI<T> {
 	public List<T> selectAll() {
 		return mapper.selectAll();
 	}
+
+	@Override
+	public T selectByOther(T entity) {
+		// TODO Auto-generated method stub
+		return mapper.selectOne(entity);
+	}
+	
+	
 }

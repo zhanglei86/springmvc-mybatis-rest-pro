@@ -17,6 +17,15 @@ public interface CountryService extends BaseServiceI<TCountry> {
      */
     List<TCountry> selectByCountry(TCountry country, int page, int rows);
 
-
+    // 
+    /**
+     * 确保唯一
+     *
+     * @param name
+     * @return true:已存在
+     * @return false:不存在
+     */
+    boolean isExist(String countryName);
+    
 }
 

@@ -48,4 +48,6 @@ public interface BaseServiceI<T> {
 
 	// TODO 其他...
 	List<T> selectAll();
+	
+	T selectByOther(T entity);
 }
