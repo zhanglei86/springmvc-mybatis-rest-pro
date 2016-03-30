@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/mvc
-	http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util.xsd"
 	default-lazy-init="false">
 
 	<!-- 只扫描Controller 注解 -->
@@ -25,7 +27,7 @@
 	<mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" />
 
 	<mvc:default-servlet-handler />
-	
+
 	<!-- enable autowire -->
 	<!-- <context:annotation-config /> -->
 
@@ -36,6 +38,7 @@
 			<ref bean="stringHttpMessageConverter" />
 			<ref bean="marshallingHttpMessageConverter" />
 			<ref bean="mappingJackson2HttpMessageConverter" />
+			<!-- <ref bean="fastJsonHttpMessageConverter" /> -->
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
@@ -53,10 +56,20 @@
 	<!-- 输出对象转JSON支持 -->
 	<bean id="mappingJackson2HttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+
+		<!-- 把枚举类型转为一个bean才能注入, 不序列化空值属性 -->
+		<!-- <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value> -->
+		<!-- <property name="objectMapper"> <bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"> 
+			<property name="dateFormat"> <bean class="java.text.SimpleDateFormat"> <constructor-arg 
+			type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" /> </bean> </property> 
+			<property name="serializationInclusion"> <util:constant static-field="com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL" 
+			/> </property> </bean> </property> -->
 		<property name="supportedMediaTypes">
 			<list>
-				<value>application/json</value>
+				<value>application/json;charset=UTF-8</value>
+				<value>application/x-www-form-urlencoded;charset=UTF-8</value>
 				<value>application/xml</value>
+				<value>application/atom+xml</value>
 				<value>text/html</value>
 				<value>text/plain</value>
 				<value>text/xml</value>
@@ -76,11 +89,14 @@
 		<property name="favorParameter" value="false" />
 		<property name="mediaTypes">
 			<map>
-				<entry key="json" value="application/json" />
-				<entry key="xml" value="application/xml" />
-				<entry key="html" value="text/html" />
-				<entry key="atom" value="application/atom+xml" />
-				<entry key="xls" value="application/vnd.ms-excel" />
+				<entry key="APPLICATION_JSON_UTF8" value="application/json;charset=UTF-8" />
+				<entry key="APPLICATION_FORM_URLENCODED" value="application/x-www-form-urlencoded" />
+				<entry key="APPLICATION_XML" value="application/xml" />
+				<entry key="APPLICATION_ATOM_XML" value="application/atom+xml" />
+				<entry key="TEXT_HTML" value="text/html" />
+				<entry key="TEXT_PLAIN" value="text/plain" />
+				<entry key="TEXT_XML" value="text/xml" />
+				<!-- <entry key="xls" value="application/vnd.ms-excel" /> -->
 			</map>
 		</property>
 	</bean>

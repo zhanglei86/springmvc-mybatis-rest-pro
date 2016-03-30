@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,20 +29,20 @@ public class CountryRESTController {
 	private CountryService countryService;
 
 	// select all
-	// produces = "application/json;charset=UTF-8"
-	@RequestMapping(value = "all", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-	// @ResponseBody
+	@RequestMapping(value = "all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+	@ResponseBody
 	public ResponseEntity<List<TCountry>> selectAll() {
 		List<TCountry> tcountryList = countryService.selectAll();
 		if (tcountryList.isEmpty()) {
-			logger.info("Fetching All with is not found!");
+			logger.info("Fetching with All is not found!");
 			return new ResponseEntity<List<TCountry>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<TCountry>>(tcountryList, HttpStatus.OK);
 	}
 
 	// select one
-	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+	@ResponseBody
 	public ResponseEntity<TCountry> selectOne(@PathVariable("id") int id) {
 		TCountry tCountry = countryService.selectByKey(id);
 		if (tCountry == null) {
@@ -52,24 +53,33 @@ public class CountryRESTController {
 	}
 
 	// create
-	@RequestMapping(value = "", headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	// headers = "Accept=application/json"
+	@RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
+	@ResponseBody
 	// @PreAuthorize("hasRole('USER')")
 	public ResponseEntity<Void> createOne(@RequestBody TCountry tcountry, UriComponentsBuilder ucBuilder) {
-		logger.info("Creating one: " + tcountry.getCountryname());
+		// username!=null
+		if (tcountry.getCountryname() != null && !tcountry.getCountryname().trim().equals("")) {
+			logger.info("Creating one: " + tcountry.getCountryname());
 
-		if (countryService.isExist(tcountry.getCountryname()) == true) {
-			logger.info("one with name" + tcountry.getCountryname() + "already exist!");
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+			if (countryService.isExist(tcountry.getCountryname()) == true) {
+				logger.info("one with name " + tcountry.getCountryname() + " already exist!");
+				return new ResponseEntity("-1", HttpStatus.CONFLICT);
+			}
+
+			int i = countryService.save(tcountry);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setLocation(ucBuilder.path("/country/" + "{id}").buildAndExpand(tcountry.getId()).toUri());
+			return new ResponseEntity(i, headers, HttpStatus.CREATED);
+		} else {
+			logger.info("Exception==Creating one: RequestBody may be is null!");
+			return new ResponseEntity("-2", HttpStatus.EXPECTATION_FAILED);
 		}
-
-		int i = countryService.save(tcountry);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/country/" + "{id}").buildAndExpand(tcountry.getId()).toUri());
-		return new ResponseEntity(i, headers, HttpStatus.CREATED);
 	}
 
 	// update
-	@RequestMapping(value = "{id}", headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.PUT)
+	@ResponseBody
 	// @PreAuthorize("hasRole('USER')")
 	public ResponseEntity<TCountry> updateOne(@PathVariable("id") int id, @RequestBody TCountry tcountry) {
 		logger.info("Fetching&Updating One with id:" + id);
@@ -78,14 +88,14 @@ public class CountryRESTController {
 			logger.info("One with id:" + id + " is not found!");
 			return new ResponseEntity<TCountry>(HttpStatus.NOT_FOUND);
 		}
-		currentObj.setCountryname(tcountry.getCountryname());
-		currentObj.setCountrycode(tcountry.getCountrycode());
-		int i = countryService.updateAll(currentObj);
+		tcountry.setId(id);
+		int i = countryService.updateNotNull(tcountry);
 		return new ResponseEntity(i, HttpStatus.OK);
 	}
 
 	// delete
-	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.DELETE)
+	@ResponseBody
 	// @PreAuthorize("hasRole('USER')")
 	public ResponseEntity<TCountry> deleteOne(@PathVariable("id") int id) {
 		logger.info("Fetching&Deleting One with id:" + id);
@@ -99,7 +109,8 @@ public class CountryRESTController {
 	}
 
 	// isExist
-	@RequestMapping(value = "isExist/{name}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+	@RequestMapping(value = "isExist/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
+	@ResponseBody
 	public ResponseEntity selectOther(@PathVariable("name") String name) {
 		boolean bl = countryService.isExist(name);
 		return new ResponseEntity(bl, HttpStatus.OK);
