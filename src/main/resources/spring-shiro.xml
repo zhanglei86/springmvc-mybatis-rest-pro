@@ -122,7 +122,6 @@
 				/resources/**=authcBasic
 				/images/**=anon
 				/swagger/**=rest
-				/api-docs/**=rest
 				/country/**=rest
 				/**=authc
 

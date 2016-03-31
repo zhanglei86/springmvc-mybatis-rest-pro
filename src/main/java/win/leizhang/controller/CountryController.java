@@ -33,13 +33,15 @@ public class CountryController {
 
 	private String redirect_list = "redirect:list";
 
-	@RequestMapping(value = "/hello", produces = "text/plain;charset=UTF-8")
-	public @ResponseBody String hello() {
+	@RequestMapping(value = "/hello", produces = "text/plain;charset=UTF-8", method = RequestMethod.GET)
+	@ResponseBody
+	public String hello() {
 		return "你好！hello";
 	}
 
-	@RequestMapping(value = "/say/{msg}", produces = "application/json;charset=UTF-8")
-	public @ResponseBody String say(@PathVariable(value = "msg") String msg) {
+	@RequestMapping(value = "/say/{msg}", produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+	@ResponseBody
+	public String say(@PathVariable(value = "msg") String msg) {
 		return "{\"msg\":\"you say:'" + msg + "'\"}";
 	}
 

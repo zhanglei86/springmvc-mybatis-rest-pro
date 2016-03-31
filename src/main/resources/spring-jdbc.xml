@@ -156,20 +156,10 @@
 
 
 	<!-- multi Datasource start -->
-	<!-- datasource2 start -->
-	<!-- copy start-end代码，改名datasource2等 -->
-	<!-- datasource2 end -->
-
-	<!-- datasource3 start -->
-	<!-- and so on.. -->
-	<!-- datasource3 end -->
-
+	
+	<!-- copy一份spring-jdbc.xml，将start-end代码所有相关属性改值为2，例如datasource2等，最后spring.xml加导入 -->
 
 	<!-- multi Datasource end -->
-
-
-	<!-- <aop:aspectj-autoproxy /> -->
-
 
 
 </beans>

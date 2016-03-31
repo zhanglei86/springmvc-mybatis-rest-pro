@@ -7,6 +7,9 @@ update 2016.3.9
 支持shiro版本
 update 2016.3.25
 
+支持swagger生成api-docs
+update 2016.3.31
+
 场景：
 香港节点有db1,db2,大陆节点有db3.
 目的是让3个数据库接入同一个web服务，由spring-mybatis管理，即数据源:datasource1,datasource2,datasource3
@@ -55,7 +58,12 @@ http://www.cnblogs.com/moonz-wu/p/4211626.html
 如何使用restclient来发送post请求参数
 http://kanpiaoxue.iteye.com/blog/2112153
 
-五、更新。。
+五、加入swagger
+Restful形式接口文档生成之Swagger与SpringMVC整合手记
+http://my.oschina.net/xiaohui249/blog/602629
+http://javatech.wang/index.php/archives/74/
+Swagger 与 SpringMVC 整合的步骤
+http://blog.csdn.net/lw_power/article/details/50663812
 
 
 六、更新。。

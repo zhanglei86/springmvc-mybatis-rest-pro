@@ -18,8 +18,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.wordnik.swagger.annotations.Api;
+
 @Controller
 @RequestMapping(value = "auth")
+@Api(hidden = true, value = "hiddenREST", position = 10000)
 public class TestLoginController {
 
 	private Logger logger = LoggerFactory.getLogger(TestLoginController.class);
