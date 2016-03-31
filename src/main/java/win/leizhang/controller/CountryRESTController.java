@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.wordnik.swagger.annotations.ApiOperation;
+
 import win.leizhang.model.datasource1.TCountry;
 import win.leizhang.service.datasource1.CountryService;
 
@@ -31,6 +33,7 @@ public class CountryRESTController {
 	// select all
 	@RequestMapping(value = "all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
 	@ResponseBody
+	@ApiOperation(hidden = false, value = "查询所有", notes = "查询所有country")
 	public ResponseEntity<List<TCountry>> selectAll() {
 		List<TCountry> tcountryList = countryService.selectAll();
 		if (tcountryList.isEmpty()) {
