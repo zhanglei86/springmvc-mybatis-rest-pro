@@ -121,6 +121,7 @@
 				/auth/logout=logout
 				/resources/**=authcBasic
 				/images/**=anon
+				/swagger/**=rest
 				/country/**=rest
 				/**=authc
 

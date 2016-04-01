@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+
 import win.leizhang.model.datasource1.TCountry;
 import win.leizhang.service.datasource1.CountryService;
 
-@RequestMapping("country")
 @RestController
+@RequestMapping("country")
 public class CountryRESTController {
 
 	private static final Logger logger = Logger.getLogger(CountryRESTController.class);
@@ -33,7 +36,7 @@ public class CountryRESTController {
 	@ResponseBody
 	public ResponseEntity<List<TCountry>> selectAll() {
 		List<TCountry> tcountryList = countryService.selectAll();
-		if (tcountryList.isEmpty()) {
+		if (tcountryList == null || tcountryList.isEmpty()) {
 			logger.info("Fetching with All is not found!");
 			return new ResponseEntity<List<TCountry>>(HttpStatus.NO_CONTENT);
 		}
@@ -53,7 +56,6 @@ public class CountryRESTController {
 	}
 
 	// create
-	// headers = "Accept=application/json"
 	@RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
 	@ResponseBody
 	// @PreAuthorize("hasRole('USER')")
@@ -80,12 +82,11 @@ public class CountryRESTController {
 	// update
 	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.PUT)
 	@ResponseBody
-	// @PreAuthorize("hasRole('USER')")
 	public ResponseEntity<TCountry> updateOne(@PathVariable("id") int id, @RequestBody TCountry tcountry) {
 		logger.info("Fetching&Updating One with id:" + id);
 		TCountry currentObj = countryService.selectByKey(id);
 		if (currentObj == null) {
-			logger.info("One with id:" + id + " is not found!");
+			logger.info("Fetching One with id:" + id + " is not found!");
 			return new ResponseEntity<TCountry>(HttpStatus.NOT_FOUND);
 		}
 		tcountry.setId(id);
@@ -96,12 +97,11 @@ public class CountryRESTController {
 	// delete
 	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.DELETE)
 	@ResponseBody
-	// @PreAuthorize("hasRole('USER')")
 	public ResponseEntity<TCountry> deleteOne(@PathVariable("id") int id) {
 		logger.info("Fetching&Deleting One with id:" + id);
 		TCountry currentObj = countryService.selectByKey(id);
 		if (currentObj == null) {
-			logger.info("One with id:" + id + " is not found!");
+			logger.info("Fetching One with id:" + id + " is not found!");
 			return new ResponseEntity<TCountry>(HttpStatus.NOT_FOUND);
 		}
 		int i = countryService.delete(id);
@@ -111,7 +111,9 @@ public class CountryRESTController {
 	// isExist
 	@RequestMapping(value = "isExist/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity selectOther(@PathVariable("name") String name) {
+	@ApiOperation(hidden = false, value = "验证用户名是否存在", notes = "验证用户名是否存在note")
+	public ResponseEntity selectOtherIsExist(
+			@ApiParam(required = true, name = "name", value = "用户名") @PathVariable("name") String name) {
 		boolean bl = countryService.isExist(name);
 		return new ResponseEntity(bl, HttpStatus.OK);
 	}
