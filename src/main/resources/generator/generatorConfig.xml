@@ -30,7 +30,12 @@
 
 		<plugin type="${mapper.plugin}">
 			<property name="mappers" value="${mapper.Mapper}" />
+			<!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+			<!-- <property name="caseSensitive" value="true" /> -->
 		</plugin>
+
+		<!-- <commentGenerator> <property name="suppressAllComments" value="true" 
+			/> </commentGenerator> -->
 
 		<jdbcConnection driverClass="${jdbc.driverClass1}"
 			connectionURL="${jdbc.url1}" userId="${jdbc.user1}" password="${jdbc.password1}">
@@ -60,7 +65,8 @@
 
 		<!-- % -->
 		<table tableName="t_country">
-			<generatedKey column="id" sqlStatement="context1" identity="true" />
+			<generatedKey column="id" sqlStatement="context1"
+				identity="true" />
 		</table>
 	</context>
 

@@ -1,6 +1,9 @@
 # springmvc-mybatis-rest-pro
 project infrastructure
 
+抽时间把这个文档写完善！！
+2016.4.1
+
 支持multi Datasource版本
 update 2016.3.9
 
@@ -24,8 +27,7 @@ http://blog.csdn.net/isea533/article/details/46815385
 
 Spring+Mybatis 多数据源配置
 http://blog.csdn.net/zheng0518/article/details/46441673
-
-mybatis如何配置使用多个数据源（environment）？枚举类
+mybatis如何配置使用多个数据源（environment）枚举类
 http://zhangbo-peipei-163-com.iteye.com/blog/2052924
 
 切换
@@ -57,6 +59,9 @@ http://blog.csdn.net/blueheart20/article/details/45174399
 http://www.cnblogs.com/moonz-wu/p/4211626.html
 如何使用restclient来发送post请求参数
 http://kanpiaoxue.iteye.com/blog/2112153
+[置顶]app后端设计--总目录
+http://blog.csdn.net/newjueqi/article/details/19003775
+
 
 五、加入swagger
 Restful形式接口文档生成之Swagger与SpringMVC整合手记
