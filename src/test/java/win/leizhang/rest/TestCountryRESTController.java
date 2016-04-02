@@ -15,14 +15,14 @@ import com.alibaba.fastjson.JSON;
 import win.leizhang.model.datasource1.TCountry;
 
 public class TestCountryRESTController {
-	public static final String REST_SERVICE_URI = "http://localhost:8080/springmvc-mybatis-rest-pro/";
+	public static final String REST_SERVICE_URI = "http://localhost:8080/springmvc-mybatis-rest-pro";
 
 	public static void testRead() {
 		System.out.println("Testing GetOne API,using ResponseEntity()-----------");
 		HttpHeaders headers = new HttpHeaders();
 		RestTemplate restTemplate = new RestTemplate();
 		RequestEntity<TCountry> requestEntity = new RequestEntity<TCountry>(headers, HttpMethod.GET,
-				URI.create(REST_SERVICE_URI + "country/35"));
+				URI.create(REST_SERVICE_URI + "/country/35"));
 		ResponseEntity<TCountry> responseEntity = restTemplate.exchange(requestEntity, TCountry.class);
 		System.out.println(responseEntity.getBody().getCountryname());
 	}
@@ -33,7 +33,7 @@ public class TestCountryRESTController {
 		System.out.println("Testing GetAll API-----------");
 
 		RestTemplate restTemplate = new RestTemplate();
-		List<LinkedHashMap<String, Object>> map = restTemplate.getForObject(REST_SERVICE_URI + "country/all",
+		List<LinkedHashMap<String, Object>> map = restTemplate.getForObject(REST_SERVICE_URI + "/country/all",
 				List.class);
 		String json = JSON.toJSONString(map);
 		System.out.println(json);
@@ -43,7 +43,7 @@ public class TestCountryRESTController {
 	private static void getOne() {
 		System.out.println("Testing GetOne API----------");
 		RestTemplate restTemplate = new RestTemplate();
-		TCountry tcountry = restTemplate.getForObject(REST_SERVICE_URI + "country/35", TCountry.class);
+		TCountry tcountry = restTemplate.getForObject(REST_SERVICE_URI + "/country/35", TCountry.class);
 		System.out.println(tcountry.getCountryname());
 	}
 
@@ -52,7 +52,7 @@ public class TestCountryRESTController {
 		System.out.println("Testing createOne API----------");
 		RestTemplate restTemplate = new RestTemplate();
 		String requestBody = "{\"countryname\":\"ZL35Country\",\"countrycode\":\"ZL35\"}";
-		URI uri = restTemplate.postForLocation(REST_SERVICE_URI + "country/", requestBody, TCountry.class);
+		URI uri = restTemplate.postForLocation(REST_SERVICE_URI + "/country/", requestBody, TCountry.class);
 		System.out.println("Location : " + uri.toASCIIString());
 	}
 
