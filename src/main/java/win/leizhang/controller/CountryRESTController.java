@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -33,7 +32,6 @@ public class CountryRESTController {
 
 	// select all
 	@RequestMapping(value = "all", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
-	@ResponseBody
 	public ResponseEntity<List<TCountry>> selectAll() {
 		List<TCountry> tcountryList = countryService.selectAll();
 		if (tcountryList == null || tcountryList.isEmpty()) {
@@ -45,7 +43,6 @@ public class CountryRESTController {
 
 	// select one
 	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
-	@ResponseBody
 	public ResponseEntity<TCountry> selectOne(@PathVariable("id") int id) {
 		TCountry tCountry = countryService.selectByKey(id);
 		if (tCountry == null) {
@@ -57,7 +54,6 @@ public class CountryRESTController {
 
 	// create
 	@RequestMapping(value = "", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.POST)
-	@ResponseBody
 	// @PreAuthorize("hasRole('USER')")
 	public ResponseEntity<Void> createOne(@RequestBody TCountry tcountry, UriComponentsBuilder ucBuilder) {
 		// username!=null
@@ -81,7 +77,6 @@ public class CountryRESTController {
 
 	// update
 	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.PUT)
-	@ResponseBody
 	public ResponseEntity<TCountry> updateOne(@PathVariable("id") int id, @RequestBody TCountry tcountry) {
 		logger.info("Fetching&Updating One with id:" + id);
 		TCountry currentObj = countryService.selectByKey(id);
@@ -96,7 +91,6 @@ public class CountryRESTController {
 
 	// delete
 	@RequestMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.DELETE)
-	@ResponseBody
 	public ResponseEntity<TCountry> deleteOne(@PathVariable("id") int id) {
 		logger.info("Fetching&Deleting One with id:" + id);
 		TCountry currentObj = countryService.selectByKey(id);
@@ -110,7 +104,6 @@ public class CountryRESTController {
 
 	// isExist
 	@RequestMapping(value = "isExist/{name}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE, method = RequestMethod.GET)
-	@ResponseBody
 	@ApiOperation(hidden = false, value = "验证用户名是否存在", notes = "验证用户名是否存在note")
 	public ResponseEntity selectOtherIsExist(
 			@ApiParam(required = true, name = "name", value = "用户名") @PathVariable("name") String name) {

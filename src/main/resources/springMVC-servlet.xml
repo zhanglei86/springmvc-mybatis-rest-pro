@@ -55,18 +55,18 @@
 		<property name="marshaller" ref="castorMarshaller" />
 		<property name="unmarshaller" ref="castorMarshaller" />
 	</bean>
+	
+	<!-- Jackson的序列化行为进行定制，比如，排除值为空属性、进行缩进输出、将驼峰转为下划线、进行日期格式化等 -->
+	<bean id="objectMapper" class="win.leizhang.system.CustomObjectMapper"
+		init-method="init">
+		<property name="camelCaseToLowerCaseWithUnderscores" value="false" />
+		<property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss" />
+	</bean>
 
 	<!-- 输出对象转JSON支持 -->
 	<bean id="mappingJackson2HttpMessageConverter"
 		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-
-		<!-- 把枚举类型转为一个bean才能注入, 不序列化空值属性 -->
-		<!-- <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value> -->
-		<!-- <property name="objectMapper"> <bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper"> 
-			<property name="dateFormat"> <bean class="java.text.SimpleDateFormat"> <constructor-arg 
-			type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" /> </bean> </property> 
-			<property name="serializationInclusion"> <util:constant static-field="com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL" 
-			/> </property> </bean> </property> -->
+		<property name="objectMapper" ref="objectMapper" />
 		<property name="supportedMediaTypes">
 			<list>
 				<value>application/json;charset=UTF-8</value>
