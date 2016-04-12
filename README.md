@@ -71,7 +71,9 @@ Swagger 与 SpringMVC 整合的步骤
 http://blog.csdn.net/lw_power/article/details/50663812
 
 
-六、更新。。
+六、优化
+从 MVC 到前后端分离
+http://my.oschina.net/huangyong/blog/521891
 
 
 七、更新。。
